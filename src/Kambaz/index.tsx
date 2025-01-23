@@ -13,7 +13,6 @@ export default function Kambaz() {
             <KambazNavigation />
           </td>
           <td valign="top">
-
       <Routes>
         <Route path="/" element={<Navigate to="Account" />} />
         <Route path="/Account/*" element={<Account />} />
