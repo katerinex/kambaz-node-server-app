@@ -1,8 +1,6 @@
-// src/Kambaz/Quizzes/Details.tsx
-
 import { useState } from "react";
-import { Card, CardContent } from "./card"; // Adjusted import paths for the current directory
-import { Button } from "./button"; // Adjusted import paths for the current directory
+import { Card, CardContent } from "./card";
+import { Button } from "./button";
 
 interface QuizDetailsProps {
   isFaculty: boolean;
@@ -29,10 +27,10 @@ export default function QuizDetails({ isFaculty }: QuizDetailsProps) {
   });
 
   return (
-    <Card className="p-6 max-w-3xl mx-auto">
+    <Card className="p-6 max-w-2xl mx-auto border border-gray-300 shadow-sm">
       <CardContent>
         <h2 className="text-xl font-bold mb-4">Q1 - HTML</h2>
-        <div className="grid grid-cols-2 gap-y-2 gap-x-8">
+        <div className="space-y-2">
           <p><strong>Quiz Type:</strong> {quiz.quizType}</p>
           <p><strong>Points:</strong> {quiz.points}</p>
           <p><strong>Assignment Group:</strong> {quiz.assignmentGroup}</p>
@@ -48,11 +46,11 @@ export default function QuizDetails({ isFaculty }: QuizDetailsProps) {
         </div>
         <table className="w-full mt-4 border-t border-gray-300 text-left">
           <thead>
-            <tr>
-              <th className="py-2">Due</th>
-              <th>For</th>
-              <th>Available from</th>
-              <th>Until</th>
+            <tr className="border-b">
+              <th className="py-2 font-semibold">Due</th>
+              <th className="font-semibold">For</th>
+              <th className="font-semibold">Available from</th>
+              <th className="font-semibold">Until</th>
             </tr>
           </thead>
           <tbody>
@@ -66,11 +64,11 @@ export default function QuizDetails({ isFaculty }: QuizDetailsProps) {
         </table>
         {isFaculty ? (
           <div className="flex space-x-2 mt-4">
-            <Button variant="outline">Preview</Button>
-            <Button variant="outline">Edit</Button>
+            <Button variant="outline" className="border border-gray-400 px-4 py-2">Preview</Button>
+            <Button variant="outline" className="border border-gray-400 px-4 py-2">Edit</Button>
           </div>
         ) : (
-          <Button className="mt-4 w-full">Start Quiz</Button>
+          <Button className="mt-4 w-full bg-blue-500 text-white py-2">Start Quiz</Button>
         )}
       </CardContent>
     </Card>
