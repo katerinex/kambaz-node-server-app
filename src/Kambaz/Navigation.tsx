@@ -4,29 +4,89 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
+
 export default function KambazNavigation() {
   return (
-   <div id="wd-kambaz-navigation" style={{ width: 120 }} 
-        className="list-group rounded-0 position-fixed
-        bottom-0 top-0 d-none d-md-block bg-black z-2">
-     <a id="wd-neu-link" target="_blank" 
+    <div
+      id="wd-kambaz-navigation"
+      style={{ width: 120 }}
+      className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2 text-center"
+    >
+      {/* NEU Logo */}
+      <a
+        id="wd-neu-link"
+        target="_blank"
         href="https://www.northeastern.edu/"
-        className="list-group-item bg-black border-0 text-center">
-        <img src="/images/NEU.png" width="75px" /></a><br />
-     <Link to="/Kambaz/Account" id="wd-account-link"
-        className="list-group-item text-center border-0 bg-black text-white">
-        <FaRegCircleUser className="fs-1 text text-white" /><br />
-        Account </Link><br />
-     <Link to="/Kambaz/Dashboard" id="wd-dashboard-link"
-        className="list-group-item text-center border-0
-                   bg-white text-danger">
-        <AiOutlineDashboard className="fs-1 text-danger" /><br />
-        Dashboard </Link><br />
-     <Link to="/Kambaz/Dashboard" id="wd-course-link"
-        className="list-group-item text-white
-                   bg-black text-center border-0">
-        <LiaBookSolid className="fs-1 text-danger" /><br />
-        Courses </Link><br />
-        {/* complete styling the rest of the links */}
-   </div>);}
- 
+        className="list-group-item bg-black border-0"
+      >
+        <img src="/images/NEU.png" width="75px" alt="NEU Logo" />
+      </a>
+
+      {/* Account */}
+      <Link
+        to="/Kambaz/Account"
+        id="wd-account-link"
+        className="list-group-item text-white bg-black border-0 py-3"
+      >
+        <FaRegCircleUser className="fs-1 text-white" />
+        <br />
+        Account
+      </Link>
+
+      {/* Dashboard (Active Link) */}
+      <Link
+        to="/Kambaz/Dashboard"
+        id="wd-dashboard-link"
+        className="list-group-item bg-white text-danger border-0 py-3"
+      >
+        <AiOutlineDashboard className="fs-1 text-danger" />
+        <br />
+        Dashboard
+      </Link>
+
+      {/* Courses */}
+      <Link
+        to="/Kambaz/Courses"
+        id="wd-course-link"
+        className="list-group-item text-white bg-black border-0 py-3"
+      >
+        <LiaBookSolid className="fs-1 text-danger" />
+        <br />
+        Courses
+      </Link>
+
+      {/* Calendar */}
+      <Link
+        to="/Kambaz/Calendar"
+        id="wd-calendar-link"
+        className="list-group-item text-white bg-black border-0 py-3"
+      >
+        <IoCalendarOutline className="fs-1 text-danger" />
+        <br />
+        Calendar
+      </Link>
+
+      {/* Inbox */}
+      <Link
+        to="/Kambaz/Inbox"
+        id="wd-inbox-link"
+        className="list-group-item text-white bg-black border-0 py-3"
+      >
+        <FaInbox className="fs-1 text-danger" />
+        <br />
+        Inbox
+      </Link>
+
+      {/* Labs */}
+      <Link
+        to="/Kambaz/Labs"
+        id="wd-labs-link"
+        className="list-group-item text-white bg-black border-0 py-3"
+      >
+        <LiaCogSolid className="fs-1 text-danger" />
+        <br />
+        Labs
+      </Link>
+    </div>
+  );
+}

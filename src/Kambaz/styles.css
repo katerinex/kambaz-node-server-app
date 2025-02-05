@@ -1,0 +1,126 @@
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Main content offset on large screens */
+@media (min-width: 768px) {
+  #wd-kambaz .wd-main-content-offset {
+    padding-left: 140px !important; /* Offset for the sidebar when visible */
+  }
+}
+
+/* Kambaz Sidebar Styles */
+#wd-kambaz-navigation {
+  width: 110px; /* Adjust the width as required */
+}
+
+#wd-kambaz-navigation .list-group-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling for Non-selected Links */
+#wd-kambaz-navigation .list-group-item {
+  background-color: black;
+  color: white;
+}
+
+/* Active link (Dashboard) styling */
+#wd-kambaz-navigation .list-group-item.active {
+  background-color: white;
+  color: red;
+  border-left: 3px solid red; /* Red left border for active link */
+}
+
+/* Specific styling for active link with red text and background */
+#wd-kambaz-navigation .list-group-item.bg-white {
+  background-color: white !important;
+  color: red !important;
+}
+
+/* Icon styling */
+#wd-kambaz-navigation .list-group-item .fs-1 {
+  font-size: 1.5rem; /* Adjust the font size of the icons */
+}
+
+/* Icon color based on link state */
+#wd-kambaz-navigation .list-group-item .fs-1.text-white {
+  color: white;
+}
+
+#wd-kambaz-navigation .list-group-item .fs-1.text-danger {
+  color: red;
+}
+
+/* Custom Styles for Dashboard */
+#wd-dashboard {
+  margin-left: 140px; /* Offset for the sidebar */
+  padding: 20px;
+}
+
+#wd-dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#wd-dashboard-published {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Grid Layout Adjustments */
+#wd-dashboard-courses .wd-dashboard-course {
+  margin-bottom: 30px; /* Set vertical spacing between rows */
+  padding-left: 10px; /* Ensure proper padding on the left */
+  padding-right: 10px; /* Ensure proper padding on the right */
+}
+
+.wd-dashboard-course .card {
+  width: 260px; /* Fixed width for each course card */
+}
+
+.wd-dashboard-course .card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.wd-dashboard-course .card-body {
+  padding: 10px;
+}
+
+.wd-dashboard-course .wd-dashboard-course-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.wd-dashboard-course .wd-dashboard-course-description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.wd-dashboard-course .btn-primary {
+  background-color: red;
+  border: none;
+}
+
+.wd-dashboard-course .btn-primary:hover {
+  background-color: darkred;
+}
+
+/* Ensure proper spacing between the sidebar and the first course */
+#wd-dashboard {
+  margin-left: 200px; /* Adjust for sidebar width */
+}
+
+/* Spacing between course rows */
+#wd-dashboard-courses .g-4 {
+  gap: 40px; /* Adjust the gap between columns and rows in the grid */
+}

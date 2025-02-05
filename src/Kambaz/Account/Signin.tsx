@@ -1,15 +1,16 @@
 //src/Kambaz/Account/Signin.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
+import { Link } from 'react-router-dom'; // Import Link here
 
 export default function Signin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();  // Hook for navigation
+  const navigate = useNavigate();  
 
   const handleSignIn = async () => {
     try {
-      const response = await fetch('/api/auth/signin', { // Your API endpoint
+      const response = await fetch('/api/auth/signin', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ export default function Signin() {
       <br />
       <button onClick={handleSignIn} id="wd-signin-btn">Sign in</button> {/* Button for action */}
       <br />
-      <Link to="/Kambaz/Account/Signup" id="wd-signup-link">Sign up</Link>
+      <Link to="/Kambaz/Account/Signup" id="wd-signup-link">Sign up</Link> {/* Link for redirecting to signup */}
     </div>
   );
 }
