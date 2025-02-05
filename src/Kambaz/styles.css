@@ -24,6 +24,7 @@ body * {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px 15px; /* Add padding to improve clickable area */
 }
 
 /* Styling for Non-selected Links */
@@ -123,4 +124,17 @@ body * {
 /* Spacing between course rows */
 #wd-dashboard-courses .g-4 {
   gap: 40px; /* Adjust the gap between columns and rows in the grid */
+}
+
+/* Hover effect for links */
+#wd-courses-navigation .list-group-item:hover {
+  background-color: #f8f9fa; /* Light gray background on hover */
+  cursor: pointer; /* Change cursor to indicate interactivity */
+}
+
+/* Active link styling for courses */
+#wd-courses-navigation .list-group-item.active {
+  background-color: white; /* White background for active link */
+  color: red; /* Red text for active link */
+  border-left: 4px solid red; /* Red left border for active link */
 }
