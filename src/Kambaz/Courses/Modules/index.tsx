@@ -1,3 +1,4 @@
+//src/Kambaz/Courses/Modules/index.tsx
 export default function Modules() {
     return (
       <div>

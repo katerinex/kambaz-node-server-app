@@ -1,3 +1,4 @@
+//src/Kambaz/Courses/Assignments/Editor.tsx
 import React, { useState } from "react";
 
 export default function AssignmentEditor() {

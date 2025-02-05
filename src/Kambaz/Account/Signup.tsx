@@ -1,3 +1,5 @@
+// src/Kambaz/Account/Signup.tsx
+
 import { Link } from "react-router-dom";
 export default function Signup() {
   return (

@@ -1,3 +1,4 @@
+//src/Kambaz/Courses/Home/Status.tsx
 export default function CourseStatus() {
     return (
       <div id="wd-course-status">

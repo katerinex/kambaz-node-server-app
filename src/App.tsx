@@ -1,3 +1,4 @@
+//src/App.tsx
 import Labs from "./Labs";
 import Kambaz from "./Kambaz";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
