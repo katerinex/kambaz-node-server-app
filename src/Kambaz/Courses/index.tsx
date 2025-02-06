@@ -10,13 +10,13 @@ import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import './styles.css';
 
 export default function Courses() {
-  const { cid } = useParams(); // Get the course ID
+  const { cid } = useParams(); 
 
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        Course {cid} {/* Display the course ID */}
+        Course {cid} 
       </h2>
       <hr />
       <div className="d-flex">

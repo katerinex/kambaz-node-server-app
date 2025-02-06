@@ -17,11 +17,10 @@ courseToggle.addEventListener('click', () => {
 {/* Kambaz Navigation Toggle */}
 <button id="kambaz-navigation-toggle">
   {/* Add an icon or text for the toggle */}
-  <i className="fas fa-bars"></i> {/* Example using Font Awesome */}
+  <i className="fas fa-bars"></i> 
 </button>
 
 {/* Course Navigation Toggle */}
 <button id="course-navigation-toggle">
   {/* Add an icon or text for the toggle */}
-  <i className="fas fa-bars"></i> {/* Example using Font Awesome */}
-</button>
+  <i className="fas fa-bars"></i> 
