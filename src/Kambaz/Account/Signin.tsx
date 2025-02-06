@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import './styles.css';
+import '../styles.css';
 
 export default function Signin() {
   const [username, setUsername] = useState('');
