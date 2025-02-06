@@ -4,7 +4,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BiImport } from "react-icons/bi";
 import { LiaFileImportSolid } from "react-icons/lia";
 import { Button } from "react-bootstrap";
-import './styles.css';
+//import '../../styles.css';
 
 export default function CourseStatus() {
   return (

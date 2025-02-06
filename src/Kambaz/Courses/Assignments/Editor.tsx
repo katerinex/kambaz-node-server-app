@@ -1,7 +1,8 @@
 // src/Kambaz/Courses/Assignments/Editor.tsx
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import './styles.css'; 
+//import '../../styles.css';
+
 const AssignmentEditor = () => {
   const [assignmentName, setAssignmentName] = useState("A1");
   const [description, setDescription] = useState(

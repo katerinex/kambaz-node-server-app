@@ -10,7 +10,7 @@ export default function KambazNavigation() {
   return (
     <div
       id="wd-kambaz-navigation"
-      style={{ width: 120 }}
+      style={{ width: 110 }}  // Sidebar width set to ~110px
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2 text-center"
     >
       {/* NEU Logo */}
@@ -38,7 +38,7 @@ export default function KambazNavigation() {
       <Link
         to="/Kambaz/Dashboard"
         id="wd-dashboard-link"
-        className="list-group-item bg-white text-danger border-0 py-3"
+        className="list-group-item bg-white text-danger border-0 py-3 active-link"
       >
         <AiOutlineDashboard className="fs-1 text-danger" />
         <br />
@@ -80,14 +80,14 @@ export default function KambazNavigation() {
 
       {/* Labs */}
       <Link
-        to="/Kambaz/Labs"
-        id="wd-labs-link"
-        className="list-group-item text-white bg-black border-0 py-3"
-      >
-        <LiaCogSolid className="fs-1 text-danger" />
-        <br />
-        Labs
-      </Link>
+  to="/Labs"  // Updated to match the path in App.tsx
+  id="wd-labs-link"
+  className="list-group-item text-white bg-black border-0 py-3"
+>
+  <LiaCogSolid className="fs-1 text-danger" />
+  <br />
+  Labs
+</Link>
     </div>
   );
 }

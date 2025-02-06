@@ -1,290 +1,187 @@
 /* src/Kambaz/styles.css */
+/* src/Kambaz/styles.css */
 body {
   margin: 0;
   padding: 0;
-}
-
-body * {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Main content offset on large screens */
-@media (min-width: 768px) {
-  #wd-kambaz .wd-main-content-offset {
-    padding-left: 140px !important; /* Offset for the sidebar when visible */
-  }
+  font-family: Arial, Helvetica, sans-serif; /* Global font */
 }
 
 /* Kambaz Sidebar Styles */
 #wd-kambaz-navigation {
-  width: 110px; /* Adjust the width as required */
+  width: 150px; /* Set a specific width for the sidebar */
+  background-color: black;
+  padding-top: 20px;
+  position: fixed; /* Keep the sidebar fixed */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2; /* Ensure sidebar is above other content */
+}
+
+#wd-kambaz-navigation img {
+  width: 75px;
+  margin: 10px 0 20px 0; /* Added top and bottom margin for the logo */
 }
 
 #wd-kambaz-navigation .list-group-item {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 10px 15px; /* Add padding to improve clickable area */
-}
-
-/* Styling for Non-selected Links */
-#wd-kambaz-navigation .list-group-item {
-  background-color: black;
+  padding: 10px 0; /* Reduced padding */
+  border: none;
+  background-color: transparent;
   color: white;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100%; /* Full width for list items */
 }
 
-/* Active link (Dashboard) styling */
+#wd-kambaz-navigation .list-group-item svg {
+  font-size: 1.8rem; /* Larger icons */
+  margin-bottom: 5px;
+  color: inherit;
+}
+
+#wd-kambaz-navigation .list-group-item:hover,
 #wd-kambaz-navigation .list-group-item.active {
-  background-color: white;
-  color: red;
-  border-left: 3px solid red; /* Red left border for active link */
-}
-
-/* Specific styling for active link with red text and background */
-#wd-kambaz-navigation .list-group-item.bg-white {
-  background-color: white !important;
+  background-color: #333;
   color: red !important;
 }
 
-/* Icon styling */
-#wd-kambaz-navigation .list-group-item .fs-1 {
-  font-size: 1.5rem; /* Adjust the font size of the icons */
+#wd-kambaz-navigation .list-group-item span {
+  font-size: 0.85rem;
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 
-/* Icon color based on link state */
-#wd-kambaz-navigation .list-group-item .fs-1.text-white {
-  color: white;
+/* Active state styles */
+#wd-kambaz-navigation .list-group-item.active {
+  font-weight: bold;
 }
 
-#wd-kambaz-navigation .list-group-item .fs-1.text-danger {
-  color: red;
+#wd-kambaz-navigation .list-group-item.active svg,
+#wd-kambaz-navigation .list-group-item.active span {
+  color: red !important;
 }
 
-/* Custom Styles for Dashboard */
+/* Main Content Area */
+#wd-kambaz .wd-main-content-offset, /* Target the element that wraps your main content */
+#wd-signin-screen-container { /* Include sign-in container for consistency */
+  margin-left: 150px; /* Add left margin to create space for the sidebar */
+  display: flex; /* Use flexbox for layout of sign-in page */
+  flex-grow: 1; /* Allow main content to expand to fill available space */
+}
+
+/* Sign-in Screen Container */
+#wd-signin-screen-container {
+  align-items: center; /* Vertically center the sign-in form */
+  justify-content: center; /* Horizontally center the sign-in form */
+}
+
+/* Responsive Sidebar Adjustments */
+@media (max-width: 768px) {
+  #wd-kambaz-navigation {
+    position: relative; /* Remove fixed positioning on smaller screens */
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  #wd-kambaz-navigation .list-group-item {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  #wd-kambaz .wd-main-content-offset,
+  #wd-signin-screen-container {
+    margin-left: 0; /* Remove left margin on smaller screens */
+  }
+}
+
+/* Dashboard Specific Styles */
 #wd-dashboard {
-  margin-left: 140px; /* Offset for the sidebar */
+  margin-left: 100px; /* Adjusted margin */
   padding: 20px;
 }
 
-#wd-dashboard-title {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-#wd-dashboard-published {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-/* Grid Layout Adjustments */
-#wd-dashboard-courses .wd-dashboard-course {
-  margin-bottom: 30px; /* Set vertical spacing between rows */
-  padding-left: 10px; /* Ensure proper padding on the left */
-  padding-right: 10px; /* Ensure proper padding on the right */
-}
-
-.wd-dashboard-course .card {
-  width: 260px; /* Fixed width for each course card */
-}
-
-.wd-dashboard-course .card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-.wd-dashboard-course .card-body {
-  padding: 10px;
-}
-
-.wd-dashboard-course .wd-dashboard-course-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.wd-dashboard-course .wd-dashboard-course-description {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.wd-dashboard-course .btn-primary {
-  background-color: red;
-  border: none;
-}
-
-.wd-dashboard-course .btn-primary:hover {
-  background-color: darkred;
-}
-
-/* Ensure proper spacing between the sidebar and the first course */
-#wd-dashboard {
-  margin-left: 200px; /* Adjust for sidebar width */
-}
-
-/* Spacing between course rows */
-#wd-dashboard-courses .g-4 {
-  gap: 40px; /* Adjust the gap between columns and rows in the grid */
-}
-
-/* Hover effect for links */
-#wd-courses-navigation .list-group-item:hover {
-  background-color: #f8f9fa; /* Light gray background on hover */
-  cursor: pointer; /* Change cursor to indicate interactivity */
-}
-
-/* Active link styling for courses */
-#wd-courses-navigation .list-group-item.active {
-  background-color: white; /* White background for active link */
-  color: red; /* Red text for active link */
-  border-left: 4px solid red; /* Red left border for active link */
-}
-
-/* Custom styles for the modules page */
-.wd-module {
-  border: 1px solid gray;
-}
-
-.wd-title {
-  font-weight: bold;
-  color: #000;
-}
-
-.wd-lesson {
-  border-left: 3px solid green !important;
-}
-
-.wd-module p-0 {
-  margin: 0;
-}
-
-.wd-title p-3 {
-  background-color: #c7cdd1;
-}
-
-.wd-lesson p-3 {
-  padding-left: 10px;
-}
-
-.wd-lesson .fs-3 {
-  font-size: 1.2rem;
-}
-
-.wd-lesson .me-2 {
-  margin-right: 10px;
-}
-
-.wd-lesson .float-end {
-  float: right;
-}
-
-.wd-lessons {
-  margin-top: 10px;
-}
-
-#wd-modules-controls {
-  margin-bottom: 20px;
-}
-
-#wd-modules-controls .btn-danger {
-  background-color: #ff6f61;
-  border: none;
-}
-
-#wd-modules-controls .btn-light {
-  background-color: #f8f9fa;
-}
-
-/* Button Customization */
-.btn-secondary {
-  --bs-btn-color: #000 !important;
-  --bs-btn-bg: #c7cdd1 !important;
-  --bs-btn-border-color: #c7cdd1 !important;
-  --bs-btn-hover-color: #fff !important;
-}
-
-.bg-secondary {
-  --bs-secondary-rgb: 199, 205, 209;
-}
-
-.list-group-item {
-  --bs-list-group-border-color: gray;
-}
-
-.wd-lesson {
-  border-left: 3px solid green !important;
-}
 /* Assignments Screen Styles */
 #wd-assignments {
-  padding: 20px; /* Add padding to the assignments container */
+  padding: 20px;
 }
 
 #wd-assignments h2 {
-  font-size: 1.8rem; /* Larger heading */
+  font-size: 1.8rem;
   margin-bottom: 1rem;
 }
 
-#wd-assignments .d-flex { /* Style the header (title and buttons) */
-  margin-bottom: 1.5rem; /* Space between header and search */
+#wd-assignments .d-flex {
+  margin-bottom: 1.5rem;
 }
 
-#wd-assignments .btn { /* Style the buttons */
-  margin-left: 0.5rem; /* Space between buttons */
+#wd-assignments .btn {
+  margin-left: 0.5rem;
 }
 
-#wd-assignments .btn-light { /* Style the "+ Group" button */
-  background-color: #f8f9fa; /* Light gray background */
+#wd-assignments .btn-light {
+  background-color: #f8f9fa;
   border-color: #f8f9fa;
 }
 
-#wd-assignments .input-group { /* Style the search input group */
-  margin-bottom: 1.5rem; /* Space between search and assignments */
+#wd-assignments .input-group {
+  margin-bottom: 1.5rem;
 }
 
-#wd-assignments .form-control { /* Style the search input */
-  border-color: #ced4da; /* Light gray border */
+#wd-assignments .form-control {
+  border-color: #ced4da;
 }
 
-#wd-assignments .input-group-text { /* Style the search icon container */
-  background-color: #fff; /* White background */
-  border: 1px solid #ced4da; /* Light gray border */
+#wd-assignments .input-group-text {
+  background-color: #fff;
+  border: 1px solid #ced4da;
 }
 
-#wd-assignments .list-group-item { /* Style the assignment list items */
-  border-left: 5px solid green !important; /* Green left border */
-  padding: 1.25rem 1.5rem; /* Increased padding */
-  margin-bottom: 1rem; /* Space between assignments */
-  border-radius: 0.5rem; /* Rounded corners */
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.2s; /* Hover effect */
-  cursor: pointer; /* Make it clear it's clickable */
+#wd-assignments .list-group-item {
+  border-left: 5px solid green !important;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
 }
 
 #wd-assignments .list-group-item:hover {
-  transform: translateY(-2px); /* Move up on hover */
+  transform: translateY(-2px);
 }
 
-#wd-assignments h3 { /* Style the assignment titles */
-  font-size: 1.25rem; /* Slightly larger title */
+#wd-assignments h3 {
+  font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 
-#wd-assignments p { /* Style the assignment details */
-  color: #6c757d; /* Grayish text color */
+#wd-assignments p {
+  color: #6c757d;
   font-size: 0.9rem;
 }
 
-/* Responsive adjustments (if needed) */
 @media (max-width: 768px) {
-  #wd-assignments .d-flex { /* Stack buttons vertically on small screens */
+  #wd-assignments .d-flex {
     flex-direction: column;
-    align-items: flex-start; /* Align buttons to the left */
+    align-items: flex-start;
   }
 
   #wd-assignments .btn {
-    margin: 0.5rem 0; /* Space buttons vertically */
+    margin: 0.5rem 0;
   }
 }
-/* src/Kambaz/Courses/Assignments/Editor.css */
+
+/* Assignment Editor Styles */
 #wd-assignment-editor {
   padding: 20px;
 }
@@ -292,11 +189,11 @@ body * {
 #wd-assignment-editor h2 {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Vertically center the spans */
+  display: flex;
+  align-items: center;
 }
 
-#wd-assignment-editor h2 span:nth-child(2) { /* Style the ">" separators */
+#wd-assignment-editor h2 span:nth-child(2) {
   margin: 0 0.5rem;
   color: gray;
 }
@@ -311,7 +208,7 @@ body * {
 }
 
 #wd-assignment-editor textarea {
-  height: 150px; /* Adjust height as needed */
+  height: 150px;
 }
 
 #wd-assignment-editor .btn-secondary {
@@ -324,20 +221,13 @@ body * {
   border-color: #007bff;
 }
 
-/* Responsive adjustments if needed */
-@media (max-width: 768px) {
-  /* Adjust styles for smaller screens */
-}
-/* src/Kambaz/Account/Signin.css */
-
-/* Overall container for the sign-in screen */
+/* Sign-in Screen Styles */
 #wd-signin-screen-container {
   display: flex;
   height: 100vh;
-  align-items: center; /* Vertically center content */
+  align-items: center;
 }
 
-/* Sidebar styles */
 #wd-account-navigation {
   width: 150px;
   background-color: #333;
@@ -360,7 +250,6 @@ body * {
   text-decoration: underline;
 }
 
-/* Sign-in form styles */
 #wd-signin-screen {
   flex: 1;
   width: 300px;
@@ -368,65 +257,19 @@ body * {
   padding: 20px;
   border: 1px solid #ced4da;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-#wd-signin-screen h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#wd-signin-screen .form-control {
-  margin-bottom: 10px;
-}
-
-#wd-signin-screen .btn-primary {
-  background-color: #673ab7;
-  border-color: #673ab7;
-}
-
-#wd-signin-screen .btn-primary:hover {
-  background-color: #512da8;
-  border-color: #512da8;
-}
-
-#wd-signup-link {
-  color: #007bff;
-}
-
-/* Responsive adjustments if needed */
-@media (max-width: 768px) {
-  #wd-signin-screen-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #wd-account-navigation {
-    width: 100%;
-    text-align: center;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
-    height: auto;
-  }
-
-  #wd-account-navigation a {
-    margin: 0;
-  }
-
-  #wd-signin-screen {
-    margin: 20px auto;
+/* Main content offset on larger screens */
+@media (min-width: 768px) {
+  #wd-kambaz .wd-main-content-offset {
+    padding-left: 100px !important; /* Adjusted for narrower navigation */
   }
 }
-#wd-kambaz-navigation .list-group-item {
-  transition: background 0.3s ease-in-out;
-}
 
-#wd-kambaz-navigation .list-group-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-#wd-kambaz-navigation .list-group-item.active {
-  font-weight: bold;
+/* Main content offset for medium screen and above to create space for the sidebar */
+@media (min-width: 768px) {
+  #wd-kambaz .wd-main-content-offset {
+    padding-left: 150px !important; /* Create space for sidebar on larger screens */
+  }
 }

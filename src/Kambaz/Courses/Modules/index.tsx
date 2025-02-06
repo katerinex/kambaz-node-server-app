@@ -4,7 +4,7 @@ import ModuleControlButtons from "./ModuleControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
 import { ListGroup } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs"; 
-import './styles.css';
+//import '../../styles.css';
 
 export default function Modules() {
   return (

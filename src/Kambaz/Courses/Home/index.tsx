@@ -3,7 +3,7 @@ import Modules from "../Modules";
 import CourseStatus from "./Status";
 import { useParams } from "react-router-dom"; // Import useParams
 import CourseNavigation from "../Navigation";
-import './styles.css';
+//import '../../styles.css';
 
 export default function Home() {
     const { cid } = useParams(); // Get the course ID from the URL
