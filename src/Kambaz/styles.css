@@ -1,4 +1,4 @@
-/* Global Styles */
+/* src/Kambaz/styles.css */
 body {
   margin: 0;
   padding: 0;
@@ -137,4 +137,285 @@ body * {
   background-color: white; /* White background for active link */
   color: red; /* Red text for active link */
   border-left: 4px solid red; /* Red left border for active link */
+}
+
+/* Custom styles for the modules page */
+.wd-module {
+  border: 1px solid gray;
+}
+
+.wd-title {
+  font-weight: bold;
+  color: #000;
+}
+
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+
+.wd-module p-0 {
+  margin: 0;
+}
+
+.wd-title p-3 {
+  background-color: #c7cdd1;
+}
+
+.wd-lesson p-3 {
+  padding-left: 10px;
+}
+
+.wd-lesson .fs-3 {
+  font-size: 1.2rem;
+}
+
+.wd-lesson .me-2 {
+  margin-right: 10px;
+}
+
+.wd-lesson .float-end {
+  float: right;
+}
+
+.wd-lessons {
+  margin-top: 10px;
+}
+
+#wd-modules-controls {
+  margin-bottom: 20px;
+}
+
+#wd-modules-controls .btn-danger {
+  background-color: #ff6f61;
+  border: none;
+}
+
+#wd-modules-controls .btn-light {
+  background-color: #f8f9fa;
+}
+
+/* Button Customization */
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+/* Assignments Screen Styles */
+#wd-assignments {
+  padding: 20px; /* Add padding to the assignments container */
+}
+
+#wd-assignments h2 {
+  font-size: 1.8rem; /* Larger heading */
+  margin-bottom: 1rem;
+}
+
+#wd-assignments .d-flex { /* Style the header (title and buttons) */
+  margin-bottom: 1.5rem; /* Space between header and search */
+}
+
+#wd-assignments .btn { /* Style the buttons */
+  margin-left: 0.5rem; /* Space between buttons */
+}
+
+#wd-assignments .btn-light { /* Style the "+ Group" button */
+  background-color: #f8f9fa; /* Light gray background */
+  border-color: #f8f9fa;
+}
+
+#wd-assignments .input-group { /* Style the search input group */
+  margin-bottom: 1.5rem; /* Space between search and assignments */
+}
+
+#wd-assignments .form-control { /* Style the search input */
+  border-color: #ced4da; /* Light gray border */
+}
+
+#wd-assignments .input-group-text { /* Style the search icon container */
+  background-color: #fff; /* White background */
+  border: 1px solid #ced4da; /* Light gray border */
+}
+
+#wd-assignments .list-group-item { /* Style the assignment list items */
+  border-left: 5px solid green !important; /* Green left border */
+  padding: 1.25rem 1.5rem; /* Increased padding */
+  margin-bottom: 1rem; /* Space between assignments */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.2s; /* Hover effect */
+  cursor: pointer; /* Make it clear it's clickable */
+}
+
+#wd-assignments .list-group-item:hover {
+  transform: translateY(-2px); /* Move up on hover */
+}
+
+#wd-assignments h3 { /* Style the assignment titles */
+  font-size: 1.25rem; /* Slightly larger title */
+  margin-bottom: 0.5rem;
+}
+
+#wd-assignments p { /* Style the assignment details */
+  color: #6c757d; /* Grayish text color */
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments (if needed) */
+@media (max-width: 768px) {
+  #wd-assignments .d-flex { /* Stack buttons vertically on small screens */
+    flex-direction: column;
+    align-items: flex-start; /* Align buttons to the left */
+  }
+
+  #wd-assignments .btn {
+    margin: 0.5rem 0; /* Space buttons vertically */
+  }
+}
+/* src/Kambaz/Courses/Assignments/Editor.css */
+#wd-assignment-editor {
+  padding: 20px;
+}
+
+#wd-assignment-editor h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center the spans */
+}
+
+#wd-assignment-editor h2 span:nth-child(2) { /* Style the ">" separators */
+  margin: 0 0.5rem;
+  color: gray;
+}
+
+#wd-assignment-editor label {
+  font-weight: bold;
+}
+
+#wd-assignment-editor .form-control,
+#wd-assignment-editor .form-select {
+  margin-bottom: 1rem;
+}
+
+#wd-assignment-editor textarea {
+  height: 150px; /* Adjust height as needed */
+}
+
+#wd-assignment-editor .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+#wd-assignment-editor .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+}
+/* src/Kambaz/Account/Signin.css */
+
+/* Overall container for the sign-in screen */
+#wd-signin-screen-container {
+  display: flex;
+  height: 100vh;
+  align-items: center; /* Vertically center content */
+}
+
+/* Sidebar styles */
+#wd-account-navigation {
+  width: 150px;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+#wd-account-navigation a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+}
+
+#wd-account-navigation a:hover {
+  text-decoration: underline;
+}
+
+/* Sign-in form styles */
+#wd-signin-screen {
+  flex: 1;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#wd-signin-screen h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#wd-signin-screen .form-control {
+  margin-bottom: 10px;
+}
+
+#wd-signin-screen .btn-primary {
+  background-color: #673ab7;
+  border-color: #673ab7;
+}
+
+#wd-signin-screen .btn-primary:hover {
+  background-color: #512da8;
+  border-color: #512da8;
+}
+
+#wd-signup-link {
+  color: #007bff;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  #wd-signin-screen-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #wd-account-navigation {
+    width: 100%;
+    text-align: center;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    height: auto;
+  }
+
+  #wd-account-navigation a {
+    margin: 0;
+  }
+
+  #wd-signin-screen {
+    margin: 20px auto;
+  }
 }

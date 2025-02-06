@@ -4,15 +4,18 @@ import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import { FaAlignJustify } from "react-icons/fa"; // Ensure this import is added
-import { Navigate, Route, Routes } from "react-router-dom"; // Correct import for `react-router-dom`
+import PeopleTable from "./People/Table"; // Import the PeopleTable component
+import { FaAlignJustify } from "react-icons/fa";
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
 
 export default function Courses() {
+  const { cid } = useParams(); // Get the course ID
+
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        Course 1234
+        Course {cid} {/* Display the course ID */}
       </h2>
       <hr />
       <div className="d-flex">
@@ -26,8 +29,7 @@ export default function Courses() {
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-            <Route path="People" element={<h2>People</h2>} />
-            {/* Catch-all route for undefined paths */}
+            <Route path="People" element={<PeopleTable />} /> {/* Use PeopleTable component */}
             <Route path="*" element={<h2>Page Not Found</h2>} />
           </Routes>
         </div>
@@ -35,5 +37,3 @@ export default function Courses() {
     </div>
   );
 }
-
-  

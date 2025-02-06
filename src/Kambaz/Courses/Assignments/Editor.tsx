@@ -1,16 +1,17 @@
-//src/Kambaz/Courses/Assignments/Editor.tsx
+// src/Kambaz/Courses/Assignments/Editor.tsx
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import './Editor.css'; // Import the CSS file
 
-export default function AssignmentEditor() {
-
-  const [assignmentName, setAssignmentName] = useState("A1 - ENV + HTML");
+const AssignmentEditor = () => {
+  const [assignmentName, setAssignmentName] = useState("A1");
   const [description, setDescription] = useState(
-    "The assignment is available online Submit a link to the landing page of"
+    "The assignment is available online Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kanbas application Links to all relevant source code repositories The Kanbas application should include a link to navigate back to the landing page."
   );
   const [points, setPoints] = useState(100);
-  const [dueDate, setDueDate] = useState("2025-05-01");
-  const [availableFrom, setAvailableFrom] = useState("2025-04-01");
-  const [availableUntil, setAvailableUntil] = useState("2025-06-01");
+  const [dueDate, setDueDate] = useState("2024-05-13T23:59"); //ISO 8601 format for datetime-local
+  const [availableFrom, setAvailableFrom] = useState("2024-05-06T00:00"); //ISO 8601 format for datetime-local
+  const [availableUntil, setAvailableUntil] = useState(""); // You might not always have an "until" date
 
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,70 +39,68 @@ export default function AssignmentEditor() {
   };
 
   return (
-    <div id="wd-assignments-editor">
-      {/* Assignment Name */}
-      <label htmlFor="wd-name">Assignment Name</label>
-      <input
-        id="wd-name"
-        type="text"
-        value={assignmentName}
-        onChange={handleNameChange}
-        placeholder="Enter Assignment Name"
-      />
-      <br /><br />
+    <div id="wd-assignment-editor" className="p-4">
+      <h2>
+        <span>202440,2 Summer 1 20245</span>
+        <span> &gt; Assignments &gt; </span>
+        <span>{assignmentName}</span> {/* Display assignment name in heading */}
+      </h2>
 
-      {/* Description */}
-      <label htmlFor="wd-description">Description</label>
-      <textarea
-        id="wd-description"
-        value={description}
-        onChange={handleDescriptionChange}
-        placeholder="Enter Assignment Description"
-      ></textarea>
-      <br /><br />
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>Assignment Name</Form.Label>
+          <Form.Control type="text" value={assignmentName} onChange={handleNameChange} />
+        </Form.Group>
 
-      {/* Points */}
-      <label htmlFor="wd-points">Points</label>
-      <input
-        id="wd-points"
-        type="number"
-        value={points}
-        onChange={handlePointsChange}
-        placeholder="Enter Points"
-      />
-      <br /><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Assignment Description</Form.Label>
+          <Form.Control as="textarea" rows={5} value={description} onChange={handleDescriptionChange} /> {/* Increased rows */}
+        </Form.Group>
 
-      {/* Due Date */}
-      <label htmlFor="wd-due-date">Due Date</label>
-      <input
-        id="wd-due-date"
-        type="date"
-        value={dueDate}
-        onChange={handleDueDateChange}
-      />
-      <br /><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Points</Form.Label>
+          <Form.Control type="number" value={points} onChange={handlePointsChange} />
+        </Form.Group>
 
-      {/* Available From */}
-      <label htmlFor="wd-available-from">Available From</label>
-      <input
-        id="wd-available-from"
-        type="date"
-        value={availableFrom}
-        onChange={handleAvailableFromChange}
-      />
-      <br /><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Due</Form.Label>
+          <Form.Control type="datetime-local" value={dueDate} onChange={handleDueDateChange} /> {/* Use datetime-local */}
+        </Form.Group>
 
-      {/* Available Until */}
-      <label htmlFor="wd-available-until">Available Until</label>
-      <input
-        id="wd-available-until"
-        type="date"
-        value={availableUntil}
-        onChange={handleAvailableUntilChange}
-      />
-      <br /><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Available from</Form.Label>
+          <Form.Control type="datetime-local" value={availableFrom} onChange={handleAvailableFromChange} /> {/* Use datetime-local */}
+        </Form.Group>
 
-      {/* Optional additional fields can be added similarly */}
+        <Form.Group className="mb-3">
+          <Form.Label>Until</Form.Label>
+          <Form.Control type="datetime-local" value={availableUntil} onChange={handleAvailableUntilChange} /> {/* Use datetime-local */}
+        </Form.Group>
+
+        {/* Add other form groups for remaining fields */}
+        <Form.Group className="mb-3">
+          <Form.Label>Submission Type</Form.Label>
+          <Form.Control as="select">
+            <option>Online</option>
+            {/* Add other submission type options */}
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Assign to</Form.Label>
+          <Form.Control as="select">
+            <option>Everyone</option>
+            {/* Add other options */}
+          </Form.Control>
+        </Form.Group>
+
+        <div className="d-flex justify-content-end">
+          <Button variant="secondary" className="me-2">Cancel</Button>
+          <Button variant="primary">Save</Button>
+        </div>
+      </Form>
     </div>
   );
-}
+};
+
+export default AssignmentEditor;

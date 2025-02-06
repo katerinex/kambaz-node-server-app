@@ -1,13 +1,15 @@
 //src/Kambaz/Courses/Navigation.tsx
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom"; // Import useParams
+
 export default function CourseNavigation() {
+  const { cid } = useParams(); // Get the course ID
+
   return (
     <div id="wd-courses-navigation" className="wd">
-      {/* ListGroup for the course navigation links */}
       <ul className="list-group list-group-flush">
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Home"
+            to={`/Kambaz/Courses/${cid}/Home`} // Use template literal and cid
             id="wd-course-home-link"
             className="d-block text-dark text-decoration-none px-4 py-3 rounded-0"
           >
@@ -16,7 +18,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Modules"
+            to={`/Kambaz/Courses/${cid}/Modules`} // Use template literal and cid
             id="wd-course-modules-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -25,7 +27,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Piazza"
+            to={`/Kambaz/Courses/${cid}/Piazza`} // Use template literal and cid
             id="wd-course-piazza-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -34,7 +36,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Zoom"
+            to={`/Kambaz/Courses/${cid}/Zoom`} // Use template literal and cid
             id="wd-course-zoom-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -43,7 +45,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Assignments"
+            to={`/Kambaz/Courses/${cid}/Assignments`} // Use template literal and cid
             id="wd-course-assignments-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -52,7 +54,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Quizzes"
+            to={`/Kambaz/Courses/${cid}/Quizzes`} // Use template literal and cid
             id="wd-course-quizzes-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -61,7 +63,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/Courses/1234/Grades"
+            to={`/Kambaz/Courses/${cid}/Grades`} // Use template literal and cid
             id="wd-course-grades-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
@@ -70,7 +72,7 @@ export default function CourseNavigation() {
         </li>
         <li className="list-group-item">
           <Link
-            to="/Kambaz/People"
+            to={`/Kambaz/Courses/${cid}/People`} // Use template literal and cid
             id="wd-course-people-link"
             className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
           >
