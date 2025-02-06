@@ -11,10 +11,8 @@ export default function Labs() {
       <h2>Katerine Osorio-Maldonado</h2>
       <h1>Labs</h1>
 
-      {/* Render Table of Contents (TOC) */}
-      <TOC />
+      <TOC /> {/* Table of Contents */}
 
-      {/* Render the appropriate lab based on URL */}
       <Routes>
         <Route path="Lab1" element={<Lab1 />} />
         <Route path="Lab2" element={<Lab2 />} />

@@ -1,17 +1,16 @@
 /* src/Kambaz/styles.css */
-/* src/Kambaz/styles.css */
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif; /* Global font */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Kambaz Sidebar Styles */
+/* Sidebar Styles */
 #wd-kambaz-navigation {
-  width: 150px; /* Set a specific width for the sidebar */
+  width: 110px;
   background-color: black;
   padding-top: 20px;
-  position: fixed; /* Keep the sidebar fixed */
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
@@ -19,28 +18,28 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2; /* Ensure sidebar is above other content */
+  z-index: 2;
 }
 
 #wd-kambaz-navigation img {
   width: 75px;
-  margin: 10px 0 20px 0; /* Added top and bottom margin for the logo */
+  margin: 10px 0 20px 0;
 }
 
 #wd-kambaz-navigation .list-group-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0; /* Reduced padding */
+  padding: 10px 0;
   border: none;
   background-color: transparent;
   color: white;
   transition: background-color 0.3s, color 0.3s;
-  width: 100%; /* Full width for list items */
+  width: 100%;
 }
 
 #wd-kambaz-navigation .list-group-item svg {
-  font-size: 1.8rem; /* Larger icons */
+  font-size: 1.8rem;
   margin-bottom: 5px;
   color: inherit;
 }
@@ -53,37 +52,33 @@ body {
 
 #wd-kambaz-navigation .list-group-item span {
   font-size: 0.85rem;
-  white-space: nowrap; /* Prevent text from wrapping */
-}
-
-/* Active state styles */
-#wd-kambaz-navigation .list-group-item.active {
-  font-weight: bold;
+  white-space: nowrap;
 }
 
 #wd-kambaz-navigation .list-group-item.active svg,
 #wd-kambaz-navigation .list-group-item.active span {
   color: red !important;
+  font-weight: bold;
 }
 
 /* Main Content Area */
-#wd-kambaz .wd-main-content-offset, /* Target the element that wraps your main content */
-#wd-signin-screen-container { /* Include sign-in container for consistency */
-  margin-left: 150px; /* Add left margin to create space for the sidebar */
-  display: flex; /* Use flexbox for layout of sign-in page */
-  flex-grow: 1; /* Allow main content to expand to fill available space */
-}
-
-/* Sign-in Screen Container */
+#wd-kambaz .wd-main-content-offset,
 #wd-signin-screen-container {
-  align-items: center; /* Vertically center the sign-in form */
-  justify-content: center; /* Horizontally center the sign-in form */
+  margin-left: 150px;
+  display: flex;
+  flex-grow: 1;
 }
 
-/* Responsive Sidebar Adjustments */
+#wd-signin-screen-container {
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Responsive Sidebar */
 @media (max-width: 768px) {
   #wd-kambaz-navigation {
-    position: relative; /* Remove fixed positioning on smaller screens */
+    position: relative;
     width: 100%;
     flex-direction: row;
     justify-content: space-around;
@@ -92,25 +87,25 @@ body {
     height: auto;
     overflow-y: visible;
   }
-
+  
   #wd-kambaz-navigation .list-group-item {
     flex-direction: column;
     padding: 10px;
   }
-
+  
   #wd-kambaz .wd-main-content-offset,
   #wd-signin-screen-container {
-    margin-left: 0; /* Remove left margin on smaller screens */
+    margin-left: 0;
   }
 }
 
-/* Dashboard Specific Styles */
+/* Dashboard */
 #wd-dashboard {
-  margin-left: 100px; /* Adjusted margin */
+  margin-left: 100px;
   padding: 20px;
 }
 
-/* Assignments Screen Styles */
+/* Assignments */
 #wd-assignments {
   padding: 20px;
 }
@@ -118,32 +113,6 @@ body {
 #wd-assignments h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
-}
-
-#wd-assignments .d-flex {
-  margin-bottom: 1.5rem;
-}
-
-#wd-assignments .btn {
-  margin-left: 0.5rem;
-}
-
-#wd-assignments .btn-light {
-  background-color: #f8f9fa;
-  border-color: #f8f9fa;
-}
-
-#wd-assignments .input-group {
-  margin-bottom: 1.5rem;
-}
-
-#wd-assignments .form-control {
-  border-color: #ced4da;
-}
-
-#wd-assignments .input-group-text {
-  background-color: #fff;
-  border: 1px solid #ced4da;
 }
 
 #wd-assignments .list-group-item {
@@ -160,28 +129,18 @@ body {
   transform: translateY(-2px);
 }
 
-#wd-assignments h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
-#wd-assignments p {
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
 @media (max-width: 768px) {
   #wd-assignments .d-flex {
     flex-direction: column;
     align-items: flex-start;
   }
-
+  
   #wd-assignments .btn {
     margin: 0.5rem 0;
   }
 }
 
-/* Assignment Editor Styles */
+/* Assignment Editor */
 #wd-assignment-editor {
   padding: 20px;
 }
@@ -193,41 +152,22 @@ body {
   align-items: center;
 }
 
-#wd-assignment-editor h2 span:nth-child(2) {
-  margin: 0 0.5rem;
-  color: gray;
-}
-
-#wd-assignment-editor label {
-  font-weight: bold;
-}
-
-#wd-assignment-editor .form-control,
-#wd-assignment-editor .form-select {
-  margin-bottom: 1rem;
-}
-
 #wd-assignment-editor textarea {
   height: 150px;
 }
 
-#wd-assignment-editor .btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
+/* Sign-in Screen */
+#wd-signin-screen {
+  flex: 1;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-#wd-assignment-editor .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-/* Sign-in Screen Styles */
-#wd-signin-screen-container {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-}
-
+/* Account Navigation */
 #wd-account-navigation {
   width: 150px;
   background-color: #333;
@@ -250,26 +190,64 @@ body {
   text-decoration: underline;
 }
 
-#wd-signin-screen {
-  flex: 1;
-  width: 300px;
-  margin: 0 auto;
+/* Sidebar for Account */
+.wd-account-sidebar {
+  background-color: #343a40;
+  color: #fff;
+  border-right: 1px solid #6c757d;
   padding: 20px;
-  border: 1px solid #ced4da;
+}
+
+.wd-account-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.wd-account-sidebar li a {
+  display: block;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.wd-account-sidebar li a:hover {
+  color: #007bff;
+}
+
+/* Sign-in Form */
+.wd-signin-form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.wd-signin-form h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.wd-signin-form .form-control {
   border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ced4da;
+  padding: 10px;
 }
 
-/* Main content offset on larger screens */
-@media (min-width: 768px) {
-  #wd-kambaz .wd-main-content-offset {
-    padding-left: 100px !important; /* Adjusted for narrower navigation */
-  }
+#wd-signin-btn {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  border-radius: 5px;
+  padding: 10px 15px;
 }
 
-/* Main content offset for medium screen and above to create space for the sidebar */
-@media (min-width: 768px) {
-  #wd-kambaz .wd-main-content-offset {
-    padding-left: 150px !important; /* Create space for sidebar on larger screens */
-  }
+#wd-signin-btn:hover {
+  background-color: #563d7c;
+  border-color: #563d7c;
 }
+
+#wd-signup-link {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+}
+
