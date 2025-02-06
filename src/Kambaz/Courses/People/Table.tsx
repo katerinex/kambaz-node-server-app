@@ -1,6 +1,7 @@
 // src/Kambaz/Courses/People/Table.tsx
 import { Table } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
+import './styles.css';
 
 export default function PeopleTable() {
   const users = [

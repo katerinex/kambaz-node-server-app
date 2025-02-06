@@ -1,5 +1,6 @@
 //src/Kambaz/Courses/Navigation.tsx
 import { Link, useParams } from "react-router-dom"; // Import useParams
+import './styles.css';
 
 export default function CourseNavigation() {
   const { cid } = useParams(); // Get the course ID

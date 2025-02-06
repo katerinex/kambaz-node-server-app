@@ -1,6 +1,7 @@
 // src/Kambaz/Dashboard.tsx
 import { Row, Col, Card, Button } from 'react-bootstrap'; // Import React Bootstrap components
 import { Link } from 'react-router-dom'; // For navigating to individual courses
+import './styles.css';
 
 export default function Dashboard() {
   return (

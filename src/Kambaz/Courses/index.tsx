@@ -7,6 +7,7 @@ import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table"; // Import the PeopleTable component
 import { FaAlignJustify } from "react-icons/fa";
 import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import './styles.css';
 
 export default function Courses() {
   const { cid } = useParams(); // Get the course ID
