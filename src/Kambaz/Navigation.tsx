@@ -10,7 +10,7 @@ export default function KambazNavigation() {
   return (
     <div
       id="wd-kambaz-navigation"
-      style={{ width: 110 }}  // Sidebar width set to ~110px
+      style={{ width: 110 }}  
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2 text-center"
     >
       {/* NEU Logo */}

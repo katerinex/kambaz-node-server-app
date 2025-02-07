@@ -1,3 +1,4 @@
+//src/Kambaz/Courses/Modules/GreenCheckmark.tsx
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 //import '../../styles.css';
 export default function GreenCheckmark() {

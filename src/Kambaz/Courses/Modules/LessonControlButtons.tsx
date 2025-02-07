@@ -1,3 +1,4 @@
+//src/Kambaz/Courses/Modules/LessonControlButtons.tsx
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "./GreenCheckmark";
 //import '../../styles.css';
