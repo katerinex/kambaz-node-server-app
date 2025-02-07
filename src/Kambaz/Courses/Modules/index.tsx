@@ -1,12 +1,17 @@
-//src/Kambaz/Courses/Modules/index.tsx
+// src/Kambaz/Courses/Modules/index.tsx
+
+import React from "react";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
 import { ListGroup } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs"; 
-//import '../../styles.css';
 
-export default function Modules() {
+interface ModulesProps {
+  courseId: string | undefined; // Add courseId as a prop
+}
+
+const Modules: React.FC<ModulesProps> = ({ courseId }) => {
   return (
     <div>
       <ModulesControls /><br /><br /><br /><br />
@@ -47,6 +52,6 @@ export default function Modules() {
       </ListGroup>
     </div>
   );
-}
+};
 
-  
+export default Modules;
