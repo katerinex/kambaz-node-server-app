@@ -14,6 +14,7 @@ interface ModulesProps {
 const Modules: React.FC<ModulesProps> = ({ courseId }) => {
   return (
     <div>
+      <h3>Modules for Course {courseId}</h3> {/* Displaying courseId here */}
       <ModulesControls /><br /><br /><br /><br />
       <ListGroup className="rounded-0" id="wd-modules">
         <ListGroup.Item className="wd-module p-0 mb-5 fs-5 border-gray">

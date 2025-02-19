@@ -18,12 +18,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
+  z-index: 999; /* Increased z-index for visibility */
 }
 
 #wd-kambaz-navigation img {
   width: 75px;
   margin: 10px 0 20px 0;
+  max-width: 100%;
+  height: auto;
 }
 
 #wd-kambaz-navigation .list-group-item {
@@ -47,7 +49,7 @@ body {
 #wd-kambaz-navigation .list-group-item:hover,
 #wd-kambaz-navigation .list-group-item.active {
   background-color: #333;
-  color: red !important;
+  color: red; /* Removed !important */
 }
 
 #wd-kambaz-navigation .list-group-item span {
@@ -57,14 +59,14 @@ body {
 
 #wd-kambaz-navigation .list-group-item.active svg,
 #wd-kambaz-navigation .list-group-item.active span {
-  color: red !important;
+  color: red; /* Removed !important */
   font-weight: bold;
 }
 
 /* Main Content Area */
 #wd-kambaz .wd-main-content-offset,
 #wd-signin-screen-container {
-  margin-left: 150px;
+  margin-left: 110px; /* Adjusted to match the sidebar width */
   display: flex;
   flex-grow: 1;
 }
@@ -82,15 +84,12 @@ body {
     width: 100%;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
     padding: 10px 0;
     height: auto;
-    overflow-y: visible;
   }
   
   #wd-kambaz-navigation .list-group-item {
-    flex-direction: column;
-    padding: 10px;
+    flex-direction: row; /* Adjusted for better mobile layout */
   }
   
   #wd-kambaz .wd-main-content-offset,
@@ -116,7 +115,7 @@ body {
 }
 
 #wd-assignments .list-group-item {
-  border-left: 5px solid green !important;
+  border-left: 5px solid green; /* Removed !important */
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
@@ -250,4 +249,3 @@ body {
   margin-top: 10px;
   text-align: center;
 }
-
