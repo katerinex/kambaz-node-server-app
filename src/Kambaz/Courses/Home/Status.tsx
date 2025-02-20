@@ -7,18 +7,13 @@ import { LiaFileImportSolid } from "react-icons/lia";
 import { Button } from "react-bootstrap";
 
 interface CourseStatusProps {
-  courseId?: string; // Make courseId optional
+  courseId?: string;
 }
 
-const CourseStatus: React.FC<CourseStatusProps> = ({ courseId }) => {  // Destructure courseId here
-  // Now you can use courseId if you need to
-  // For example:
-  // console.log("Course ID:", courseId);
-
+const CourseStatus: React.FC<CourseStatusProps> = () => {  // Removed unused parameter
   return (
     <div id="wd-course-status" style={{ width: "350px" }}>
       <h2>Course Status</h2>
-
       {/* First Row - Unpublish / Publish buttons */}
       <div className="d-flex mb-3">
         <div className="w-50 pe-1">
@@ -32,7 +27,6 @@ const CourseStatus: React.FC<CourseStatusProps> = ({ courseId }) => {  // Destru
           </Button>
         </div>
       </div>
-
       {/* Second Row - Import Existing Content / Import from Commons */}
       <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
         <BiImport className="me-2 fs-5" /> Import Existing Content
@@ -40,7 +34,6 @@ const CourseStatus: React.FC<CourseStatusProps> = ({ courseId }) => {  // Destru
       <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
         <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons
       </Button>
-
       {/* Additional Buttons */}
       <Button variant="info" size="lg" className="w-100 mt-1 text-start">
         View Course Notifications
