@@ -1,5 +1,5 @@
-//src/Kambaz/Navigation.tsx
-import { Link } from "react-router-dom";
+// src/Kambaz/Navigation.tsx
+import { Link, useLocation } from "react-router-dom";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
@@ -7,87 +7,86 @@ import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import './styles.css';
 
 export default function KambazNavigation() {
+  const location = useLocation();
+  
+  const isActive = (path: string) => {
+    return location.pathname.includes(path) ? "active" : "";
+  };
+
   return (
     <div
       id="wd-kambaz-navigation"
-      style={{ width: 110 }}  
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2 text-center"
     >
-      {/* NEU Logo */}
       <a
         id="wd-neu-link"
         target="_blank"
         href="https://www.northeastern.edu/"
         className="list-group-item bg-black border-0"
+        rel="noopener noreferrer"
       >
-        <img src="/images/NEU-logo.svg" width="75px" alt="NEU Logo" />
+        <img src="/images/NEU-logo.svg" width="75" alt="NEU Logo" />
       </a>
 
-      {/* Account */}
       <Link
         to="/Kambaz/Account"
         id="wd-account-link"
-        className="list-group-item text-white bg-black border-0 py-3"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Account')}`}
       >
-        <FaRegCircleUser className="fs-1 text-white" />
+        <FaRegCircleUser className="fs-1" />
         <br />
         Account
       </Link>
 
-      {/* Dashboard (Active Link) */}
       <Link
         to="/Kambaz/Dashboard"
         id="wd-dashboard-link"
-        className="list-group-item bg-white text-danger border-0 py-3 active-link"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Dashboard')}`}
       >
-        <AiOutlineDashboard className="fs-1 text-danger" />
+        <AiOutlineDashboard className="fs-1" />
         <br />
         Dashboard
       </Link>
 
-      {/* Courses */}
       <Link
         to="/Kambaz/Courses"
         id="wd-course-link"
-        className="list-group-item text-white bg-black border-0 py-3"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Courses')}`}
       >
-        <LiaBookSolid className="fs-1 text-danger" />
+        <LiaBookSolid className="fs-1" />
         <br />
         Courses
       </Link>
 
-      {/* Calendar */}
       <Link
         to="/Kambaz/Calendar"
         id="wd-calendar-link"
-        className="list-group-item text-white bg-black border-0 py-3"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Calendar')}`}
       >
-        <IoCalendarOutline className="fs-1 text-danger" />
+        <IoCalendarOutline className="fs-1" />
         <br />
         Calendar
       </Link>
 
-      {/* Inbox */}
       <Link
         to="/Kambaz/Inbox"
         id="wd-inbox-link"
-        className="list-group-item text-white bg-black border-0 py-3"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Inbox')}`}
       >
-        <FaInbox className="fs-1 text-danger" />
+        <FaInbox className="fs-1" />
         <br />
         Inbox
       </Link>
 
-      {/* Labs */}
       <Link
-  to="/Labs"  // Updated to match the path in App.tsx
-  id="wd-labs-link"
-  className="list-group-item text-white bg-black border-0 py-3"
->
-  <LiaCogSolid className="fs-1 text-danger" />
-  <br />
-  Labs
-</Link>
+        to="/Labs"
+        id="wd-labs-link"
+        className={`list-group-item text-white bg-black border-0 py-3 ${isActive('/Labs')}`}
+      >
+        <LiaCogSolid className="fs-1" />
+        <br />
+        Labs
+      </Link>
     </div>
   );
 }

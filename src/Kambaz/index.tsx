@@ -4,7 +4,9 @@ import Account from "./Account";
 import Dashboard from "./Dashboard";
 import KambazNavigation from "./Navigation";
 import Courses from "./Courses";
-import "./styles.css"; 
+import Calendar from "./Calendar"; // Create this component
+import Inbox from "./Inbox"; // Create this component
+import "./styles.css";
 
 export default function Kambaz() {
   return (
@@ -12,20 +14,17 @@ export default function Kambaz() {
       <KambazNavigation />
       <div className="wd-main-content-offset p-3" style={{ flex: 1 }}>
         <Routes>
-          <Route path="/" element={<Navigate to="Dashboard" />} /> {/* Default to Dashboard */}
-          <Route path="Account/*" element={<Account />} />
-          <Route path="Dashboard" element={<Dashboard />} />
-          <Route path="Courses/:cid/*" element={<Courses />} />
-          <Route path="Calendar" element={<h1>Calendar</h1>} />
-          <Route path="Inbox" element={<h1>Inbox</h1>} />
+          <Route path="/" element={<Navigate to="/Kambaz/Dashboard" />} />
+          <Route path="/Account/*" element={<Account />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Courses/:cid/*" element={<Courses />} />
+          <Route path="/Calendar" element={<Calendar />} />
+          <Route path="/Inbox" element={<Inbox />} />
         </Routes>
       </div>
     </div>
   );
 }
-
-
-
 
   
 
