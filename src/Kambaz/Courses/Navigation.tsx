@@ -1,6 +1,6 @@
 //src/Kambaz/Courses/Navigation.tsx
 
-import { Link, useParams } from "react-router-dom"; // Import useParams
+import { Link} from "react-router-dom"; // Import useParams
 //import '../styles.css';
 
 

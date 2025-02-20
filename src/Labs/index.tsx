@@ -7,17 +7,15 @@ import TOC from "./TOC";
 
 export default function Labs() {
   return (
-    <div>
-      <h2>Katerine Osorio-Maldonado</h2>
+    <div className="p-3">
       <h1>Labs</h1>
-
-      <TOC /> {/* Table of Contents */}
-
+      <TOC/>
       <Routes>
+        <Route path="/" element={<Navigate to="Lab1" />} />
         <Route path="Lab1" element={<Lab1 />} />
-        <Route path="Lab2" element={<Lab2 />} />
-        <Route path="Lab3" element={<Lab3 />} />
+        <Route path="Lab2/*" element={<Lab2 />} />
+        <Route path="Lab3/*" element={<Lab3 />} />
       </Routes>
     </div>
-  );
-}
+);}
+

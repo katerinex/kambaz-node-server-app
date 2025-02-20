@@ -1,5 +1,4 @@
 // src/Kambaz/Courses/Home/index.tsx
-import React from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import Modules from "../Modules";
 import CourseStatus from "./Status";
@@ -11,7 +10,7 @@ export default function Home() {
   return (
     <div className="d-flex" id="wd-home">
       <div className="d-none d-md-block">
-        <CourseNavigation />
+        <CourseNavigation courseId={cid} /> 
       </div>
       <div className="flex-fill me-3">
         <Modules courseId={cid} /> {/* Passing courseId as a prop */}
