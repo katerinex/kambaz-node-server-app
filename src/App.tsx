@@ -3,8 +3,6 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import Labs from "./Labs";
 import Kambaz from "./Kambaz";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Dashboard from './Dashboard';
-
 
 export default function App() {
   return (
