@@ -1,8 +1,7 @@
 // src/Kambaz/Account/Signin.tsx
 import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
-import '../styles.css'; // Import your CSS file
-
+import '../styles.css'; 
 export default function Signin() {
   return (
     <div id="wd-signin-screen" className="container-fluid">

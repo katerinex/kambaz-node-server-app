@@ -6,7 +6,8 @@ let true3 = !false2;
 let true4 = numberVariable === 123; // always use === not ==
 let true5 = floatingPointNumber !== 321.432;
 let false3 = numberVariable < 100;
-return (
+
+return ( // This is the implicit return of the function
   <div id="wd-boolean-variables">
     <h4>Boolean Variables</h4>
     true1     = {true1 + ""}     <br />
@@ -16,7 +17,6 @@ return (
     true3     = {true3 + ""}     <br />
     true4     = {true4 + ""}     <br />
     true5     = {true5 + ""}     <br />
-    false3    = {false3 + ""}    <hr />
+    false3    = {false3 + ""}    <hr /> {/* Added this line */}
   </div>
-);
-
+); 

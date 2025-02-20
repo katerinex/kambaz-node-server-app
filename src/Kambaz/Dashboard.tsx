@@ -1,7 +1,7 @@
 // src/Kambaz/Dashboard.tsx
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { courses as dbCourses } from './Database'; // Make sure the path is correct
+import { courses as dbCourses } from './Database'; 
 import './styles.css';
 
 interface Course {
@@ -12,7 +12,7 @@ interface Course {
 }
 
 export default function Dashboard() {
-  const courses: Course[] = Array.isArray(dbCourses) ? dbCourses : (dbCourses.courses || dbCourses.data || []); // Handle different structures
+  const courses: Course[] = Array.isArray(dbCourses) ? dbCourses : ((dbCourses as { courses: Course[] }).courses || (dbCourses as { data: Course[] }).data || []);
 
   return (
     <div id="wd-dashboard">
