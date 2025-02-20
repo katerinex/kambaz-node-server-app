@@ -1,22 +1,24 @@
 // src/Kambaz/Courses/Home/index.tsx
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams } from "react-router-dom";
 import Modules from "../Modules";
 import CourseStatus from "./Status";
 import CourseNavigation from "../Navigation";
 
 export default function Home() {
-  const { cid } = useParams(); // Get the course ID from the URL
+  const { cid } = useParams();
 
   return (
     <div className="d-flex" id="wd-home">
       <div className="d-none d-md-block">
-        <CourseNavigation courseId={cid} /> 
+        <CourseNavigation courseId={cid} />
       </div>
       <div className="flex-fill me-3">
-        <Modules courseId={cid} /> {/* Passing courseId as a prop */}
+        <Modules courseId={cid} />
       </div>
       <div className="d-none d-xl-block">
-        <CourseStatus courseId={cid} /> {/* Passing courseId as a prop */}
+        {cid && ( // Conditional rendering: Only render if cid exists
+          <CourseStatus courseId={cid} />
+        )}
       </div>
     </div>
   );

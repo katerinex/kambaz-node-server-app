@@ -7,14 +7,18 @@ import { LiaFileImportSolid } from "react-icons/lia";
 import { Button } from "react-bootstrap";
 
 interface CourseStatusProps {
- // courseId: string | undefined; 
+  courseId?: string; // Make courseId optional
 }
 
-const CourseStatus: React.FC<CourseStatusProps> = ({ courseId }) => {
+const CourseStatus: React.FC<CourseStatusProps> = ({ courseId }) => {  // Destructure courseId here
+  // Now you can use courseId if you need to
+  // For example:
+  // console.log("Course ID:", courseId);
+
   return (
     <div id="wd-course-status" style={{ width: "350px" }}>
       <h2>Course Status</h2>
-      
+
       {/* First Row - Unpublish / Publish buttons */}
       <div className="d-flex mb-3">
         <div className="w-50 pe-1">
