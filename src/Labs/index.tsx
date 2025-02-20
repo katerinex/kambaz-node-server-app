@@ -6,8 +6,7 @@ import Lab3 from "./Lab3";
 import TOC from "./TOC";
 
 export default function Labs() {
-  const navigate = useNavigate(); // Get the navigate function
-
+  const navigate = useNavigate(); 
   return (
     <div className="p-3">
       <h1>Labs</h1>
@@ -22,7 +21,6 @@ export default function Labs() {
   );
 }
 
-// Create a component to handle the navigation
 const NavigateToLab1 = ({ navigate }: { navigate: any }) => {
   React.useEffect(() => {
     navigate("Lab1");
