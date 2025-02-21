@@ -18,7 +18,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 999; /* Increased z-index for visibility */
+  z-index: 999;
 }
 
 #wd-kambaz-navigation img {
@@ -49,7 +49,7 @@ body {
 #wd-kambaz-navigation .list-group-item:hover,
 #wd-kambaz-navigation .list-group-item.active {
   background-color: #333;
-  color: red; /* Removed !important */
+  color: red;
 }
 
 #wd-kambaz-navigation .list-group-item span {
@@ -59,14 +59,14 @@ body {
 
 #wd-kambaz-navigation .list-group-item.active svg,
 #wd-kambaz-navigation .list-group-item.active span {
-  color: red; /* Removed !important */
+  color: red;
   font-weight: bold;
 }
 
 /* Main Content Area */
 #wd-kambaz .wd-main-content-offset,
 #wd-signin-screen-container {
-  margin-left: 110px; /* Adjusted to match the sidebar width */
+  margin-left: 110px; 
   display: flex;
   flex-grow: 1;
 }
@@ -75,27 +75,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-/* Responsive Sidebar */
-@media (max-width: 768px) {
-  #wd-kambaz-navigation {
-    position: relative;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 10px 0;
-    height: auto;
-  }
-  
-  #wd-kambaz-navigation .list-group-item {
-    flex-direction: row; /* Adjusted for better mobile layout */
-  }
-  
-  #wd-kambaz .wd-main-content-offset,
-  #wd-signin-screen-container {
-    margin-left: 0;
-  }
 }
 
 /* Dashboard */
@@ -115,7 +94,7 @@ body {
 }
 
 #wd-assignments .list-group-item {
-  border-left: 5px solid green; /* Removed !important */
+  border-left: 5px solid green; 
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
@@ -126,17 +105,6 @@ body {
 
 #wd-assignments .list-group-item:hover {
   transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-  #wd-assignments .d-flex {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  #wd-assignments .btn {
-    margin: 0.5rem 0;
-  }
 }
 
 /* Assignment Editor */
@@ -156,26 +124,38 @@ body {
 }
 
 /* Sign-in Screen */
-#wd-signin-screen {
-  flex: 1;
-  width: 300px;
-  margin: 0 auto;
+#wd-signin-screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin-left: 110px;
   padding: 20px;
+}
+
+#wd-signin-screen {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
   border: 1px solid #ced4da;
   border-radius: 5px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 /* Account Navigation */
 #wd-account-navigation {
-  width: 150px;
+  width: 200px;
   background-color: #333;
   color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start;
+  height: 100vh;
+  position: fixed;
+  left: 110px;
+  top: 0;
 }
 
 #wd-account-navigation a {
@@ -215,24 +195,26 @@ body {
 
 /* Sign-in Form */
 .wd-signin-form {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
 }
 
 .wd-signin-form h1 {
   font-size: 2em;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .wd-signin-form .form-control {
+  width: 100%;
+  margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #ced4da;
   padding: 10px;
 }
 
 #wd-signin-btn {
+  width: 100%;
+  margin-top: 10px;
   background-color: #6f42c1;
   border-color: #6f42c1;
   border-radius: 5px;
@@ -248,4 +230,103 @@ body {
   display: block;
   margin-top: 10px;
   text-align: center;
+}
+
+/* Main Content Area for Account Pages */
+.wd-account-content {
+  margin-left: 310px; /* 110px (main nav) + 200px (account nav) */
+  padding: 20px;
+}
+
+.bg-light {
+  background-color: #f8f9fa;
+}
+
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+
+.btn-danger {
+  background-color: #DC4C64;
+  border-color: #DC4C64;
+}
+
+.btn-danger:hover {
+  background-color: #c93b53;
+  border-color: #c93b53;
+}
+
+.form-control:focus {
+  border-color: #DC4C64;
+  box-shadow: 0 0 0 0.2rem rgba(220, 76, 100, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  #wd-account-navigation {
+    width: 150px;
+    left: 0;
+  }
+
+  .wd-account-content {
+    margin-left: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  #wd-signin-screen-container,
+  #wd-kambaz .wd-main-content-offset {
+    margin-left: 0;
+  }
+
+  #wd-account-navigation {
+    width: 100%;
+    height: auto;
+    position: static;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .wd-account-content {
+    margin-left: 0;
+  }
+
+  #wd-kambaz-navigation {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+    height: auto;
+  }
+
+  #wd-kambaz-navigation .list-group-item {
+    flex-direction: column;
+    padding: 5px;
+  }
+
+  #wd-kambaz-navigation img {
+    width: 50px;
+    margin: 5px 0;
+  }
+
+  #wd-assignments .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  #wd-assignments .btn {
+    margin: 0.5rem 0;
+  }
+}
+
+@media (max-width: 576px) {
+  #wd-signin-screen {
+    padding: 20px;
+  }
+
+  .wd-signin-form h1 {
+    font-size: 1.5em;
+  }
 }

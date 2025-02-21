@@ -6,5 +6,4 @@ console.log(fourTimesFive);
   <h4>Implied return</h4>
   fourTimesFive = {fourTimesFive}   <br />
   multiply(4, 5) = {multiply(4, 5)} <hr />
-</div>; // Semicolon is good practice, but not strictly required here
-
+</div>; 

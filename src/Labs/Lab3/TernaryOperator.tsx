@@ -1,8 +1,8 @@
 // src/Labs/Lab3/TernaryOperator.tsx
 import React from 'react';
 
-const TernaryOperator: React.FC = () => {  // Functional component
-  let loggedIn = true; // Can be declared inside the function
+const TernaryOperator: React.FC = () => {  
+  let loggedIn = true; 
 
   return (
     <div id="wd-ternary-operator">
