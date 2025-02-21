@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Alert, Container, Row, Col } from 'react-bootstrap';
-import { users } from '../Database/users'; 
+import { users } from '../Database/users';
 import NEU2Image from "/Users/katerineosorio/2025/spring/webdev/kambaz-react-web-app/src/assets/NEU2.jpg"; // Replace with your actual path
 
 export default function Signin() {
@@ -14,7 +14,7 @@ export default function Signin() {
   const handleSignin = (e: React.FormEvent) => {
     e.preventDefault();
     const user = users.find(u => u.username === username && u.password === password);
-    
+
     if (user) {
       // In a real app, you'd set up proper session management
       localStorage.setItem('currentUser', JSON.stringify(user));
@@ -27,21 +27,21 @@ export default function Signin() {
   return (
     <Container fluid className="vh-100 d-flex align-items-center justify-content-center bg-light">
       <Row className="w-100 justify-content-center">
-        <Col xs={12} sm={8} md={6} lg={4}>
+        <Col xs={12} sm={8} md={6} lg={4} style={{ maxWidth: '400px' }}> {/* Add maxWidth to Col */}
           <Card className="shadow-sm">
             <Card.Body className="p-4">
               <div className="text-center mb-4">
-                <img 
-                  src={NEU2Image} 
-                  alt="Northeastern University" 
+                <img
+                  src={NEU2Image}
+                  alt="Northeastern University"
                   style={{ width: '200px' }}
                 />
               </div>
-              
+
               <h4 className="text-center mb-4">Sign In to Canvas</h4>
-              
+
               {error && <Alert variant="danger">{error}</Alert>}
-              
+
               <Form onSubmit={handleSignin}>
                 <Form.Group className="mb-3">
                   <Form.Label>Username</Form.Label>
@@ -70,8 +70,8 @@ export default function Signin() {
                 </Button>
 
                 <div className="text-center">
-                  <Button 
-                    variant="link" 
+                  <Button
+                    variant="link"
                     onClick={() => navigate('/Kambaz/Account/Signup')}
                   >
                     Need an account? Sign up

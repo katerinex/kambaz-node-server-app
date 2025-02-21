@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Alert, Container, Row, Col } from 'react-bootstrap';
-import { UserRole } from '../types/user'; 
+import { UserRole } from '../types/User'; 
 export default function Signup() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

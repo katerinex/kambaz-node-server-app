@@ -7,6 +7,7 @@ import LessonControlButtons from "./LessonControlButtons";
 import { ListGroup } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs"; 
 
+
 interface ModulesProps {
   courseId: string | undefined; // Add courseId as a prop
 }
