@@ -66,15 +66,18 @@ body {
 /* Main Content Area */
 #wd-kambaz .wd-main-content-offset,
 #wd-signin-screen-container {
-  margin-left: 110px; 
+  margin-left: 110px;
   display: flex;
   flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 #wd-signin-screen-container {
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  padding: 20px;
 }
 
 /* Dashboard */
@@ -94,7 +97,7 @@ body {
 }
 
 #wd-assignments .list-group-item {
-  border-left: 5px solid green; 
+  border-left: 5px solid green;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
@@ -124,23 +127,17 @@ body {
 }
 
 /* Sign-in Screen */
-#wd-signin-screen-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin-left: 110px;
-  padding: 20px;
-}
-
 #wd-signin-screen {
-  width: 100%;
-  max-width: 400px;
-  padding: 30px;
+  width: 320px;       /* Fixed width */
+  max-width: none;    /* Override any max-width */
+  min-width: 320px;    /* Ensure it doesn't shrink */
+  height: auto;      /* Allow content to determine height */
+  padding: 20px;
   border: 1px solid #ced4da;
   border-radius: 5px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  box-sizing: border-box;
 }
 
 /* Account Navigation */
@@ -195,40 +192,44 @@ body {
 
 /* Sign-in Form */
 .wd-signin-form {
-  width: 100%;
+  width: 100%; /* Take up full width within the fixed container */
+  box-sizing: border-box;
 }
 
 .wd-signin-form h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
+  font-size: 1.5em;
+  margin-bottom: 15px;
   text-align: center;
 }
 
 .wd-signin-form .form-control {
-  width: 100%;
-  margin-bottom: 15px;
+  width: 100%; /* Take up full width within the form */
+  margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ced4da;
-  padding: 10px;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 #wd-signin-btn {
-  width: 100%;
-  margin-top: 10px;
-  background-color: #6f42c1;
-  border-color: #6f42c1;
+  width: 100%;  /* Take up full width within the form */
+  margin-top: 5px;
+  background-color: #DC4C64; /* Changed to match the image */
+  border-color: #DC4C64;   /* Changed to match the image */
   border-radius: 5px;
-  padding: 10px 15px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  color: white; /* Added to make the text visible */
 }
 
 #wd-signin-btn:hover {
-  background-color: #563d7c;
-  border-color: #563d7c;
+  background-color: #c93b53;
+  border-color: #c93b53;
 }
 
 #wd-signup-link {
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
   text-align: center;
 }
 
@@ -261,72 +262,28 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(220, 76, 100, 0.25);
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  #wd-account-navigation {
-    width: 150px;
-    left: 0;
-  }
-
-  .wd-account-content {
-    margin-left: 150px;
-  }
-}
-
+/* Responsive adjustments - Minimal */
 @media (max-width: 768px) {
-  #wd-signin-screen-container,
-  #wd-kambaz .wd-main-content-offset {
-    margin-left: 0;
+  #wd-kambaz .wd-main-content-offset,
+  #wd-signin-screen-container {
+    margin-left: 0; /* Keep centered, but remove sidebar offset */
   }
 
   #wd-account-navigation {
-    width: 100%;
-    height: auto;
     position: static;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 10px;
+    width: 100%;
   }
 
   .wd-account-content {
     margin-left: 0;
   }
-
-  #wd-kambaz-navigation {
-    position: static;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 10px 0;
-    height: auto;
-  }
-
-  #wd-kambaz-navigation .list-group-item {
-    flex-direction: column;
-    padding: 5px;
-  }
-
-  #wd-kambaz-navigation img {
-    width: 50px;
-    margin: 5px 0;
-  }
-
-  #wd-assignments .d-flex {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  #wd-assignments .btn {
-    margin: 0.5rem 0;
-  }
 }
 
-@media (max-width: 576px) {
-  #wd-signin-screen {
-    padding: 20px;
-  }
-
-  .wd-signin-form h1 {
-    font-size: 1.5em;
-  }
+/* VERY Small Screens */
+@media (max-width: 400px) {
+    #wd-signin-screen {
+        width: 95%; /* Allow it to take up almost the full screen width */
+        min-width: auto; /* Allow it to shrink if necessary */
+        max-width: none;
+    }
 }
