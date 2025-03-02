@@ -1,8 +1,8 @@
 // src/Kambaz/Dashboard.tsx
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { courses as dbCourses } from './Database';
 import './styles.css';
+import dbCourses from './Database/courses.json';
 
 // Define the database course structure
 interface DBCourse {

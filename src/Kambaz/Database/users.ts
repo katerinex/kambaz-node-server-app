@@ -1,6 +1,9 @@
 // src/Kambaz/Database/users.ts
 
-import { User } from "../types/User";
+
+//import { users } from "../Database/users";
+// Example (before)
+import users from "../Database/users.json";
 export const users: User[] = [
     {
       _id: "1",

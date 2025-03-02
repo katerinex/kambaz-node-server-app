@@ -5,20 +5,20 @@ import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table";
-import { FaAlignJustify } from "react-icons/fa6"; 
+import { FaAlignJustify } from "react-icons/fa6";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
-import { courses } from "../Database"; 
+import courses from "../Database/courses.json"; // Corrected import and path
 
 export default function Courses() {
-  const { cid } = useParams();
+  const { cid } = useParams<{ cid: string }>(); // Added type to useParams
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
         {course && course.name} &gt; {pathname.split("/")[4]}
-
       </h2>
       <hr />
       <div className="d-flex">
@@ -29,7 +29,7 @@ export default function Courses() {
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
-            <Route path="Modules" element={<Modules courseId={cid} />} /> {/* Pass cid */}
+            <Route path="Modules" element={<Modules courseId={cid} />} />
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />

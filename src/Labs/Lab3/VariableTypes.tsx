@@ -1,3 +1,4 @@
+// src/Labs/Lab3/VariableTypes.tsx
 export default function VariableTypes() {
     let numberVariable = 123;
     let floatingPointNumber = 234.345;
