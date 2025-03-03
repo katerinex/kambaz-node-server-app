@@ -2,12 +2,36 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import { Button, Dropdown } from "react-bootstrap";
-// import '../../styles.css';
+import { useState } from "react";
+import ModuleEditor from "./ModuleEditor"; // Import ModuleEditor
 
-export default function ModulesControls() {
+interface ModulesControlsProps {
+  moduleName: string;
+  setModuleName: (title: string) => void;
+  addModule: () => void;
+}
+
+export default function ModulesControls({
+  moduleName,
+  setModuleName,
+  addModule,
+}: ModulesControlsProps) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <div id="wd-modules-controls" className="d-flex justify-content-end align-items-center"> {/* Use flexbox for layout */}
-      <Button variant="danger" size="lg" className="me-2" id="wd-add-module-btn">
+    <div
+      id="wd-modules-controls"
+      className="d-flex justify-content-end align-items-center"
+    >
+      <Button
+        variant="danger"
+        size="lg"
+        className="me-2"
+        id="wd-add-module-btn"
+        onClick={handleShow} // Added onClick
+      >
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </Button>
@@ -41,6 +65,15 @@ export default function ModulesControls() {
       <Button variant="light" size="lg" id="wd-collapse-all">
         Collapse All
       </Button>
+
+      <ModuleEditor
+        show={show}
+        handleClose={handleClose}
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
 }
