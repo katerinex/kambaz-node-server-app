@@ -6,13 +6,30 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table";
 import { FaAlignJustify } from "react-icons/fa6";
-import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
+import { Navigate, Route, Routes, useParams, useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
+interface Enrollment {
+  user: string;
+  course: string;
+}
 
 export default function Courses({ courses }: { courses: any[]; }) {
-  const { cid } = useParams<{ cid: string }>(); // Added type to useParams
+  const { cid } = useParams<{ cid: string }>();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const enrollments = useSelector((state: any) => state.enrollmentsReducer);
+  const navigate = useNavigate();
+
+  const isEnrolled = enrollments.some(
+    (enrollment: Enrollment) => enrollment.user === currentUser?.id && enrollment.course === cid
+  );
+
+  if (currentUser?.role === "STUDENT" && !isEnrolled) {
+    navigate("/Kambaz/Dashboard");
+    return null;
+  }
 
   return (
     <div id="wd-courses">

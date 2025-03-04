@@ -74,7 +74,7 @@ export default function Kambaz() {
             path="/Courses/:cid/*"
             element={
               <ProtectedRoute>
-                <Courses />
+                <Courses courses={courses} />
               </ProtectedRoute>
             }
           />

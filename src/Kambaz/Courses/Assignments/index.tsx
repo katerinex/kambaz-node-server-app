@@ -1,38 +1,48 @@
 // src/Kambaz/Courses/Assignments/index.tsx
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa"; // Import icons
-import { Button, Form, InputGroup } from 'react-bootstrap'; // Import Bootstrap components
-//import '../../styles.css';
+import { FaSearch } from "react-icons/fa";
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function Assignments() {
-  const assignments = [
-    { id: 1, title: "A1 - ENV + HTML", modules: "Multiple Modules", available: "May 6 at 12:00am", due: "May 13 at 11:59pm", points: "100 pts" },
-    { id: 2, title: "A2 - JavaScript Basics", modules: "Multiple Modules", available: "May 13 at 12:00am", due: "May 20 at 11:59pm", points: "100 pts" },
-    { id: 3, title: "A3 - React Introduction", modules: "Multiple Modules", available: "May 20 at 12:00am", due: "May 27 at 11:59pm", points: "100 pts" },
-  ];
-
+  const { cid } = useParams<{ cid: string }>();
+  const assignments = useSelector((state: any) => state.assignmentsReducer).filter((a:any)=>a.course===cid);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [assignmentToDelete, setAssignmentToDelete] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredAssignments = assignments.filter((assignment) =>
+  const filteredAssignments = assignments.filter((assignment:any) =>
     assignment.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  return (
-    <div id="wd-assignments" className="p-4"> {/* Add padding */}
+  const handleDelete = (assignmentId: string) => {
+    setAssignmentToDelete(assignmentId);
+    setShowModal(true);
+  };
 
-      <div className="d-flex justify-content-between align-items-center mb-3"> {/* Flexbox for header */}
+  const confirmDelete = () => {
+    dispatch(deleteAssignment(assignmentToDelete));
+    setShowModal(false);
+  };
+
+  return (
+    <div id="wd-assignments" className="p-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Assignments</h2>
-        <div> {/* Button group */}
-          <Button variant="light" className="me-2">+ Group</Button>
-          <Button variant="danger">+ Assignment</Button>
+        <div>
+          <Button variant="danger" onClick={() => navigate(`Assignments/new`)}>+ Assignment</Button>
         </div>
       </div>
 
-       <InputGroup className="mb-3"> {/* Search input */}
+      <InputGroup className="mb-3">
         <Form.Control
           placeholder="Search for Assignment"
           aria-label="Search"
@@ -46,17 +56,34 @@ export default function Assignments() {
       </InputGroup>
 
       <ul className="list-group">
-        {filteredAssignments.map((assignment) => (
-          <li key={assignment.id} className="list-group-item">
+        {filteredAssignments.map((assignment:any) => (
+          <li key={assignment._id} className="list-group-item">
             <div className="wd-assignment-item">
-              <h3>{assignment.title}</h3>
+              <Link to={`Assignments/${assignment._id}`}>
+                <h3>{assignment.title}</h3>
+              </Link>
               <p>
-                {assignment.modules} | Not available until {assignment.available} | Due {assignment.due} | {assignment.points}
+                {assignment.description} | Due {assignment.dueDate} | {assignment.points} pts
               </p>
+              <Button variant="danger" onClick={() => handleDelete(assignment._id)}>Delete</Button>
             </div>
           </li>
         ))}
       </ul>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this assignment?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Yes, Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

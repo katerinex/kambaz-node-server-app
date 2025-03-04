@@ -1,93 +1,51 @@
-//src/Kambaz/Courses/Navigation.tsx
+// src/Kambaz/Courses/Navigation.tsx
 
-import { Link} from "react-router-dom"; // Import useParams
-//import '../styles.css';
+import { Link } from "react-router-dom";
+import { FaHome, FaBook, FaCalendarDay, FaTachometerAlt, FaUsers, FaRocket } from "react-icons/fa";
 
-
-// Define the props interface
 interface CourseNavigationProps {
   courseId: string | undefined;
 }
 
-const CourseNavigation: React.FC<CourseNavigationProps> = ({ courseId }) => {
+export default function CourseNavigation({ courseId }: CourseNavigationProps) { // Destructure and type
   return (
-    <div id="wd-courses-navigation" className="wd">
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Home`}
-            id="wd-course-home-link"
-            className="d-block text-dark text-decoration-none px-4 py-3 rounded-0"
-          >
-            Home
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Modules`}
-            id="wd-course-modules-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Modules
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Piazza`}
-            id="wd-course-piazza-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Piazza
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Zoom`}
-            id="wd-course-zoom-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Zoom
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Assignments`}
-            id="wd-course-assignments-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Assignments
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Quizzes`}
-            id="wd-course-quizzes-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Quizzes
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/Grades`}
-            id="wd-course-grades-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            Grades
-          </Link>
-        </li>
-        <li className="list-group-item">
-          <Link
-            to={`/Kambaz/Courses/${courseId}/People`}
-            id="wd-course-people-link"
-            className="d-block text-danger text-decoration-none px-4 py-3 rounded-0"
-          >
-            People
-          </Link>
-        </li>
-      </ul>
+    <div className="list-group" style={{ width: "200px" }}>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/Home`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaHome className="me-2" /> Home
+      </Link>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/Modules`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaBook className="me-2" /> Modules
+      </Link>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/Assignments`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaCalendarDay className="me-2" /> Assignments
+      </Link>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/Grades`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaTachometerAlt className="me-2" /> Grades
+      </Link>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/People`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaUsers className="me-2" /> People
+      </Link>
+      <Link
+        to={`/Kambaz/Courses/${courseId}/Settings`}
+        className="list-group-item list-group-item-action"
+      >
+        <FaRocket className="me-2" /> Settings
+      </Link>
     </div>
   );
-};
-
-export default CourseNavigation;
+}

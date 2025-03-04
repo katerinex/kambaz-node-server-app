@@ -1,107 +1,99 @@
 // src/Kambaz/Courses/Assignments/Editor.tsx
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-//import '../../styles.css';
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "./reducer";
 
 const AssignmentEditor = () => {
-  const [assignmentName, setAssignmentName] = useState("A1");
-  const [description, setDescription] = useState(
-    "The assignment is available online Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kanbas application Links to all relevant source code repositories The Kanbas application should include a link to navigate back to the landing page."
+  const { cid, aid } = useParams<{ cid: string; aid: string }>();
+  const assignments = useSelector((state: any) => state.assignmentsReducer);
+  const assignment = assignments.find((a: any) => a._id === aid);
+  const [formData, setFormData] = useState<any>(
+    assignment || {
+      _id: "",
+      title: "",
+      description: "",
+      points: 0,
+      dueDate: "",
+      availableFromDate: "",
+      availableUntilDate: "",
+      course: cid,
+    }
   );
-  const [points, setPoints] = useState(100);
-  const [dueDate, setDueDate] = useState("2024-05-13T23:59"); //ISO 8601 format for datetime-local
-  const [availableFrom, setAvailableFrom] = useState("2024-05-06T00:00"); //ISO 8601 format for datetime-local
-  const [availableUntil, setAvailableUntil] = useState(""); // You might not always have an "until" date
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (assignment) {
+      setFormData(assignment);
+    } else if(aid === 'new'){
+      setFormData({
+        _id: String(Date.now()),
+        title: "",
+        description: "",
+        points: 0,
+        dueDate: "",
+        availableFromDate: "",
+        availableUntilDate: "",
+        course: cid,
+      });
+    }
+  }, [assignment, cid, aid]);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAssignmentName(e.target.value);
-  };
-
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
-
-  const handlePointsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPoints(Number(e.target.value));
-  };
-
-  const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDueDate(e.target.value);
-  };
-
-  const handleAvailableFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAvailableFrom(e.target.value);
-  };
-
-  const handleAvailableUntilChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAvailableUntil(e.target.value);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (assignment) {
+      dispatch(updateAssignment(formData));
+    } else {
+      dispatch(addAssignment(formData));
+    }
+    navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (
     <div id="wd-assignment-editor" className="p-4">
       <h2>
-        <span>202440,2 Summer 1 20245</span>
+        <span>{cid}</span>
         <span> &gt; Assignments &gt; </span>
-        <span>{assignmentName}</span> {/* Display assignment name in heading */}
+        <span>{formData.title}</span>
       </h2>
 
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Assignment Name</Form.Label>
-          <Form.Control type="text" value={assignmentName} onChange={handleNameChange} />
+          <Form.Control type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Assignment Description</Form.Label>
-          <Form.Control as="textarea" rows={5} value={description} onChange={handleDescriptionChange} /> {/* Increased rows */}
+          <Form.Control as="textarea" rows={5} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Points</Form.Label>
-          <Form.Control type="number" value={points} onChange={handlePointsChange} />
+          <Form.Control type="number" value={formData.points} onChange={(e) => setFormData({ ...formData, points: parseInt(e.target.value) })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Due</Form.Label>
-          <Form.Control type="datetime-local" value={dueDate} onChange={handleDueDateChange} /> {/* Use datetime-local */}
+          <Form.Control type="datetime-local" value={formData.dueDate} onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Available from</Form.Label>
-          <Form.Control type="datetime-local" value={availableFrom} onChange={handleAvailableFromChange} /> {/* Use datetime-local */}
+          <Form.Control type="datetime-local" value={formData.availableFromDate} onChange={(e) => setFormData({ ...formData, availableFromDate: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Until</Form.Label>
-          <Form.Control type="datetime-local" value={availableUntil} onChange={handleAvailableUntilChange} /> {/* Use datetime-local */}
+          <Form.Label>Available until</Form.Label>
+          <Form.Control type="datetime-local" value={formData.availableUntilDate} onChange={(e) => setFormData({ ...formData, availableUntilDate: e.target.value })} />
         </Form.Group>
-
-        {/* Add other form groups for remaining fields */}
-        <Form.Group className="mb-3">
-          <Form.Label>Submission Type</Form.Label>
-          <Form.Control as="select">
-            <option>Online</option>
-            {/* Add other submission type options */}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Assign to</Form.Label>
-          <Form.Control as="select">
-            <option>Everyone</option>
-            {/* Add other options */}
-          </Form.Control>
-        </Form.Group>
-
-        <div className="d-flex justify-content-end">
-          <Button variant="secondary" className="me-2">Cancel</Button>
-          <Button variant="primary">Save</Button>
-        </div>
+        <Button variant="primary" type="submit">
+          Save
+        </Button>
       </Form>
     </div>
   );
-};
-
+}
 export default AssignmentEditor;
