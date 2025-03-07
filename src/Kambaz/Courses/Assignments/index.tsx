@@ -1,7 +1,7 @@
 // src/Kambaz/Courses/Assignments/index.tsx
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function Assignments() {
       </div>
 
       <InputGroup className="mb-3">
-        <Form.Control
+        <FormControl
           placeholder="Search for Assignment"
           aria-label="Search"
           aria-describedby="basic-addon1"

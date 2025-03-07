@@ -1,6 +1,6 @@
 // src/Kambaz/Courses/Assignments/Editor.tsx
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, FormControl, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
@@ -62,32 +62,32 @@ const AssignmentEditor = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Assignment Name</Form.Label>
-          <Form.Control type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
+          <FormControl type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Assignment Description</Form.Label>
-          <Form.Control as="textarea" rows={5} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
+          <FormControl as="textarea" rows={5} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Points</Form.Label>
-          <Form.Control type="number" value={formData.points} onChange={(e) => setFormData({ ...formData, points: parseInt(e.target.value) })} />
+          <FormControl type="number" value={formData.points} onChange={(e) => setFormData({ ...formData, points: parseInt(e.target.value) })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Due</Form.Label>
-          <Form.Control type="datetime-local" value={formData.dueDate} onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} />
+          <FormControl type="datetime-local" value={formData.dueDate} onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Available from</Form.Label>
-          <Form.Control type="datetime-local" value={formData.availableFromDate} onChange={(e) => setFormData({ ...formData, availableFromDate: e.target.value })} />
+          <FormControl type="datetime-local" value={formData.availableFromDate} onChange={(e) => setFormData({ ...formData, availableFromDate: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Available until</Form.Label>
-          <Form.Control type="datetime-local" value={formData.availableUntilDate} onChange={(e) => setFormData({ ...formData, availableUntilDate: e.target.value })} />
+          <FormControl type="datetime-local" value={formData.availableUntilDate} onChange={(e) => setFormData({ ...formData, availableUntilDate: e.target.value })} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Save
