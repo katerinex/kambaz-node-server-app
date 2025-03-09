@@ -1,5 +1,5 @@
 
-import './Borders.css'; // Import your CSS file
+
 
 export default function Borders() {
   return (
