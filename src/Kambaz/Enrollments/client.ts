@@ -14,6 +14,11 @@ export const unenrollUserFromCourse = async (user: string, course: string) => {
 };
 
 export const findEnrollmentsForUser = async (userId: string) => {
-  const response = await axios.get(`<span class="math-inline">\{REMOTE\_SERVER\}/api/users/</span>{userId}/enrollments`);
+  const response = await axios.get(`${REMOTE_SERVER}/api/users/${userId}/enrollments`);
   return response.data;
+};
+
+export const findEnrollmentsForCourse = async (courseId: string) => {
+    const response = await axios.get(`${REMOTE_SERVER}/api/courses/${courseId}/enrollments`);
+    return response.data;
 }

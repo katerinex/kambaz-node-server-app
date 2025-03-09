@@ -26,7 +26,6 @@ export default function Labs() {
   );
 }
 
-// Correctly type the navigate prop.  "any" is usually a bad idea.
 interface NavigateToLab1Props {
   navigate: ReturnType<typeof useNavigate>;
 }
