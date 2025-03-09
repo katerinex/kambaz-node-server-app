@@ -1,5 +1,3 @@
-// src/Labs/Lab5/WorkingWithObjects.tsx
-
 import { useState } from "react";
 import { FormControl } from "react-bootstrap";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
@@ -115,6 +113,13 @@ export default function WorkingWithObjects() {
         <label className="form-check-label">Completed</label>
       </div>
       <button className="btn btn-primary mt-2" onClick={updateAssignmentCompleted}>Update Assignment Completed</button>
+
+      <FormControl
+         className="w-75 mb-2 mt-2"
+          value={assignment.title}
+          onChange={(e) => setAssignment({...assignment, title: e.target.value})}
+      />
+      <button className = "btn btn-primary mt-2" onClick={updateTitle}> Update Assignment Title</button>
 
       <hr />
     </div>

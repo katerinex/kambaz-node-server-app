@@ -22,7 +22,7 @@ interface ModulesProps {
 }
 
 export default function Modules(props: ModulesProps) {
-  const { courseId } = props;
+  const { courseId } = props; // Use courseId from props
   const { cid } = useParams<{ cid?: string }>(); // Make cid optional
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
@@ -30,9 +30,10 @@ export default function Modules(props: ModulesProps) {
 
   const fetchModules = async () => {
     try{
-      if (cid) {
+      const courseIdToUse = courseId || cid; // Use courseId from props or cid from params
+      if (courseIdToUse) {
         const fetchedModules = await coursesClient.findModulesForCourse(
-          cid as string
+          courseIdToUse as string
         );
         dispatch(setModules(fetchedModules));
       }
@@ -42,10 +43,11 @@ export default function Modules(props: ModulesProps) {
   };
 
   const createModuleForCourse = async () => {
-    if (!cid) return;
+    const courseIdToUse = courseId || cid;
+    if (!courseIdToUse) return;
     try{
-      const newModule = { name: moduleName, course: cid };
-      const module = await coursesClient.createModuleForCourse(cid, newModule);
+      const newModule = { name: moduleName, course: courseIdToUse };
+      const module = await coursesClient.createModuleForCourse(courseIdToUse, newModule);
       dispatch(addModule(module));
       setModuleName(""); // Clear the input field after adding
     } catch (error) {
@@ -73,11 +75,11 @@ export default function Modules(props: ModulesProps) {
 
   useEffect(() => {
     fetchModules();
-  }, [cid]);
+  }, [cid, courseId]); // Add courseId to the dependency array
 
   return (
     <div>
-      <h3>Modules for Course {cid}</h3>
+      <h3>Modules for Course {courseId || cid}</h3> {/* Display courseId or cid */}
       <ModulesControls
         moduleName={moduleName}
         setModuleName={setModuleName}

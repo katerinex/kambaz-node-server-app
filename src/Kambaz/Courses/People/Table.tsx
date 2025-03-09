@@ -1,10 +1,10 @@
 // src/Kambaz/Courses/People/Table.tsx
 import { useState, useEffect } from "react";
 import { Table, Button, Form, FormControl, Modal } from "react-bootstrap";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import * as client from "./client";
 import { FaUserCircle } from "react-icons/fa";
-import PeopleDetails from "./Details";
+import PeopleDetails from "./Details"; // Import PeopleDetails
 
 interface User {
   _id: string;
@@ -33,7 +33,6 @@ export default function PeopleTable({ users: usersProp = [] }: PeopleTableProps)
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState("");
-  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
@@ -100,7 +99,7 @@ export default function PeopleTable({ users: usersProp = [] }: PeopleTableProps)
 
   return (
     <div>
-      <PeopleDetails />
+      <PeopleDetails fetchUsers={fetchUsers} /> {/* Pass fetchUsers as a prop */}
       <h2>People</h2>
       <Form className="mb-3">
         <Form.Group className="mb-2">
@@ -263,4 +262,3 @@ export default function PeopleTable({ users: usersProp = [] }: PeopleTableProps)
     </div>
   );
 }
-
