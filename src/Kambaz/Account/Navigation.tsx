@@ -1,7 +1,7 @@
 // src/Kambaz/Account/Navigation.tsx
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import NEU2Image from "/Users/katerineosorio/2025/spring/webdev/kambaz-react-web-app/src/assets/NEU2.jpg";
+import NEU2Image from '../../assets/NEU2.jpg'; 
 
 export default function AccountNavigation() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
