@@ -1,3 +1,12 @@
+export const title = "React Icons";
+export const description = "React Icons Sampler";
+import "./ReactIcons.css";
+import "./Positions.css";
+import "./Padding.css";
+import "./Colors.css";
+import "./Dimensions.css";
+import "./Borders.css";
+import "./Flexbox.css";
 import { FaCalendar, FaEnvelopeOpenText, FaRegClock }
   from "react-icons/fa";
 import { AiOutlineDashboard } from "react-icons/ai";

@@ -1,3 +1,4 @@
+//src/Labs/Lab2/BootstrapForms.tsx
 import {
   Form,
   FormGroup,
@@ -9,6 +10,10 @@ import {
   Row,
   Button,
 } from 'react-bootstrap';
+import "./index.css";
+
+export default function BootstrapForms() {
+  return (
 
 <div id="wd-css-styling-forms">
   <h2>Forms</h2>
@@ -121,3 +126,5 @@ import {
     </Form>
   </div>
 </div>
+  );
+}

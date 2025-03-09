@@ -1,4 +1,7 @@
+//src/Labs/Lab2/BootstrapTables.tsx
 import { Table } from 'react-bootstrap';
+
+export const BootstrapTables = () => (
 
 <div id="wd-css-styling-tables">
 
@@ -38,5 +41,6 @@ import { Table } from 'react-bootstrap';
 
 
 </div>
+);
 
     

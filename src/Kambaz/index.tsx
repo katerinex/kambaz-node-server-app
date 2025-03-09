@@ -28,68 +28,52 @@ interface Course {
 
 export default function Kambaz() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [courses, setCourses] = useState<Course[]>([]); // Initialize as an array
-  const [course, setCourse] = useState<Course>({
-    _id: "1234",
-    name: "New Course",
-    number: "New Number",
-    startDate: "2023-09-10",
-    endDate: "2023-12-15",
-    description: "New Description",
-  });
+  const [courses, setCourses] = useState<Course[]>([]);
   const [enrolling, setEnrolling] = useState<boolean>(false);
 
-  const addNewCourse = async () => {
-    const newCourse = await courseClient.createCourse(course);
-    setCourses([...courses, newCourse]);
-  };
-
-  const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
-    console.log("deleteCourse status:", status);
-    setCourses(courses.filter((course) => course._id !== courseId));
-  };
-
-  const updateCourse = async (updatedCourse: Course) => {
-    setCourses(
-      courses.map((c: Course) => {
-        if (c._id === updatedCourse._id) {
-          return updatedCourse;
-        } else {
-          return c;
-        }
-      })
-    );
-    await courseClient.updateCourse(updatedCourse);
-  };
-
   const findCoursesForUser = async () => {
+    if (!currentUser || !currentUser._id) {
+      console.error("Current user or user ID is missing.");
+      return;
+    }
     try {
       const fetchedCourses = await userClient.findCoursesForUser(currentUser._id);
       setCourses(fetchedCourses);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching user courses:", error);
     }
   };
 
   const updateEnrollment = async (courseId: string, enrolled: boolean) => {
-    if (enrolled) {
-      await userClient.enrollIntoCourse(currentUser._id, courseId);
-    } else {
-      await userClient.unenrollFromCourse(currentUser._id, courseId);
+    if (!currentUser || !currentUser._id) {
+      console.error("Current user or user ID is missing.");
+      return;
     }
-    setCourses(
-      courses.map((course) => {
-        if (course._id === courseId) {
-          return { ...course, enrolled: enrolled };
-        } else {
-          return course;
-        }
-      })
-    );
+    try {
+      if (enrolled) {
+        await userClient.enrollIntoCourse(currentUser._id, courseId);
+      } else {
+        await userClient.unenrollFromCourse(currentUser._id, courseId);
+      }
+      setCourses(
+        courses.map((course) => {
+          if (course._id === courseId) {
+            return { ...course, enrolled: enrolled };
+          } else {
+            return course;
+          }
+        })
+      );
+    } catch (error) {
+      console.error("Error updating enrollment:", error);
+    }
   };
 
   const fetchCourses = async () => {
+    if (!currentUser || !currentUser._id) {
+      console.error("Current user or user ID is missing.");
+      return;
+    }
     try {
       const allCourses = await courseClient.findAllCourses();
       const enrolledCourses = await userClient.findCoursesForUser(
@@ -104,12 +88,12 @@ export default function Kambaz() {
       });
       setCourses(fetchedCourses);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching courses:", error);
     }
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser._id) {
       if (enrolling) {
         fetchCourses();
       } else {
@@ -146,11 +130,6 @@ export default function Kambaz() {
                   <ProtectedRoute>
                     <Dashboard
                       courses={courses}
-                      course={course}
-                      setCourse={setCourse}
-                      addNewCourse={addNewCourse}
-                      deleteCourse={deleteCourse}
-                      updateCourse={updateCourse}
                       enrolling={enrolling}
                       setEnrolling={setEnrolling}
                       updateEnrollment={updateEnrollment}

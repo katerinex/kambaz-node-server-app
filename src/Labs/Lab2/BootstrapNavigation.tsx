@@ -1,4 +1,9 @@
+//src/Labs/Lab2/BootstrapNavigation.tsx
 import { Nav, Card, Button} from 'react-bootstrap';
+import "./index.css";
+
+export default function BootstrapNavigation() {
+  return (
 
 <div id="wd-css-navigating-with-tabs">
   <h2>Tabs</h2>
@@ -35,4 +40,6 @@ import { Nav, Card, Button} from 'react-bootstrap';
 
 
 </div>
+  );
+}
 

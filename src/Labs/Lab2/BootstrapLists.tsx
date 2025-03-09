@@ -1,5 +1,9 @@
+//src/Labs/Lab2/BootstrapLists.tsx
 import { ListGroup } from 'react-bootstrap';
 
+export default function BootstrapLists() {
+  return (
+    
 <div id="wd-css-styling-lists">
   <h2>Favorite movies</h2>
   <ListGroup>
@@ -36,3 +40,5 @@ href="https://en.wikipedia.org/wiki/2001:_A_Space_Odyssey_(novel)">
 
 </div>
 
+);
+}

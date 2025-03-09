@@ -1,4 +1,8 @@
+//src/Labs/Lab2/BootstrapGrids.tsx
 import { Row, Col } from 'react-bootstrap';
+import "./index.css";
+export default function BootstrapGrids() {
+  return (     
 <div id="wd-bs-responsive-dramatic">
   <h2>Responsive grid system</h2>
   <Row>
@@ -40,6 +44,9 @@ import { Row, Col } from 'react-bootstrap';
          <h4>12</h4></Col>
    </Row>
 </div>
+
+  );
+}
 
 
 

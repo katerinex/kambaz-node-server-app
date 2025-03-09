@@ -1,3 +1,6 @@
+
+export default function Margins() {
+  return (
 <div id="wd-css-margins">
   <h2>Margins</h2>
   <div
@@ -26,4 +29,7 @@
     Margin all around
   </div>
 </div>
+
+  );
+}
 

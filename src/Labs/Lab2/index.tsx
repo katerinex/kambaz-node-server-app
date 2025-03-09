@@ -1,10 +1,29 @@
-//src/Labs/Lab2/index.tsx
-import { Container } from 'react-bootstrap'; 
+// src/Labs/Lab2/index.tsx
+import { Container } from 'react-bootstrap';
 import "./index.css";
+import BootstrapForms from "./BootstrapForms";
+import BootstrapGrids from "./BootstrapGrids";
+import BootstrapLists from "./BootstrapLists";
+import BootstrapNavigation from "./BootstrapNavigation";
+import { BootstrapTables } from "./BootstrapTables";
+import Borders from './Borders';
+import Dimensions from './Dimensions';
+import Flex from './Flex';
+import Float from './Float';
+import ForegroundColors from './ForegroundColors';
+import Positions from './Positions';
+import Padding from './Padding';
+import Zindex from './Zindex';
+import BackgroundColors from './BackgroundColors.tsx';
+import ScreenSizeLabel from './ScreenSizeLabel.tsx';
+import Corners from './Corners.tsx';
+
+
+
 
 export default function Lab2() {
   return (
-    <div> {/* Wrapping everything in a single div or container */}
+    <div>
       <Container>
         <h2>Lab 2 - Cascading Style Sheets</h2>
         <h3>Styling with the STYLE attribute</h3>
@@ -58,6 +77,22 @@ export default function Lab2() {
           </div>
         </div>
       </div>
+      <BackgroundColors />
+      <Corners />
+      <BootstrapForms />
+      <BootstrapGrids />
+      <BootstrapLists />
+      <BootstrapNavigation />
+      <BootstrapTables />
+      <Borders />
+      <Dimensions />
+      <Flex />
+      <Float />
+      <ForegroundColors />
+      <Positions />
+      <Padding />
+      <Zindex />
+      <ScreenSizeLabel />
     </div>
   );
 }

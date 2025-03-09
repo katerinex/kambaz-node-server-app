@@ -1,3 +1,5 @@
+export default function Float() {
+  return (
 <div id="wd-float-divs">
  <h2>Float</h2>
  <div>
@@ -36,4 +38,6 @@
 
 
 </div>
+  );
+}
 

@@ -22,6 +22,10 @@ export default function Courses({ courses }: { courses: any[]; }) {
   const enrollments = useSelector((state: any) => state.enrollmentsReducer);
   const navigate = useNavigate();
 
+  if (!course) {
+    return <div>Course not found.</div>;
+  }
+
   const isEnrolled = enrollments.some(
     (enrollment: Enrollment) => enrollment.user === currentUser?.id && enrollment.course === cid
   );
@@ -35,7 +39,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        {course && course.name} &gt; {pathname.split("/")[4]}
+        {course.name} &gt; {pathname.split("/")[4]}
       </h2>
       <hr />
       <div className="d-flex">
