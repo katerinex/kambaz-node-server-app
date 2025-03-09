@@ -1,3 +1,5 @@
+// src/Labs/Lab3/ArrowFunctions.tsx
+
 const subtract = (a: number, b: number) => {
     return a - b;
   };

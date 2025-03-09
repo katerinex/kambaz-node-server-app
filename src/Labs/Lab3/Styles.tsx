@@ -1,3 +1,4 @@
+//src/Labs/Lab3/Styles.tsx
 export default function Styles() {
     const colorBlack = { color: "black" };
     const padding10px = { padding: "10px" };

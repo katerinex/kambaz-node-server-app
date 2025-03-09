@@ -1,3 +1,5 @@
+// src/Labs/Lab3/todos/TodoItem.tsx
+
 const TodoItem = ( { todo = { done: true, title: 'Buy milk',
     status: 'COMPLETED' } }) => {
 return (

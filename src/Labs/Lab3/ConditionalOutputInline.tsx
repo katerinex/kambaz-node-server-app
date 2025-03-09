@@ -1,3 +1,4 @@
+// src/Labs/Lab3/ConditionalOutputInline.tsx
 const ConditionalOutputInline = () => {
     const loggedIn = false;
     return (

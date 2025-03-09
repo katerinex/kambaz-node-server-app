@@ -1,3 +1,4 @@
+// src/Labs/Lab3/Add.tsx
 export default function Add({ a, b }: { a: number; b: number }) {
     return (
       <div id="wd-add">

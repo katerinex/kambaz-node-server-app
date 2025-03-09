@@ -1,3 +1,4 @@
+//src/Labs/Lab3/LegacyFunctions.tsx
 function add(a: number, b: number) {
     return a + b;
   }

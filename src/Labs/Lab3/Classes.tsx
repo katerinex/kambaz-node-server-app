@@ -1,3 +1,4 @@
+// src/Labs/Lab3/Classes.tsx
 import './Classes.css';
 export default function Classes() {
     const color = 'blue';

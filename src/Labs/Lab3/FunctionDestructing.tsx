@@ -1,3 +1,4 @@
+// src/Labs/Lab3/FunctionDestructing.tsx
 export default function FunctionDestructing() {
     const add = (a: number, b: number) => a + b;
     const sum = add(1, 2);

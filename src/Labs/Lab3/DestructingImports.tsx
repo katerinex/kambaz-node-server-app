@@ -1,3 +1,5 @@
+// src/Labs/Lab3/DestructingImports.tsx
+
 import { add, subtract } from "./Math"; // Removed unused imports
 import * as Matematica from "./Math";
 import Math from "./Math"; // Import Math if it's the default export

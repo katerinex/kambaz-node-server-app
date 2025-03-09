@@ -1,3 +1,5 @@
+// src/Labs/Lab3/Destructing.tsx
+
 export default function Destructing() {
     const person = { name: "John", age: 25 };
     const { name, age } = person;

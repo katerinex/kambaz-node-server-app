@@ -1,3 +1,4 @@
+//src/Labs/Lab3/SimpleArrays.tsx
 export default function SimpleArrays() {
     var functionScoped = 2;  let blockScoped = 5;
     const constant1 = functionScoped - blockScoped;

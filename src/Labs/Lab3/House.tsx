@@ -1,3 +1,4 @@
+//src/Labs/Lab3/House.tsx
 export default function House() {
     const house = {
       bedrooms: 4,      bathrooms: 2.5,

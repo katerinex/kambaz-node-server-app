@@ -1,3 +1,5 @@
+// src/Labs/Lab3/AddPathParameters.tsx
+
 import { useParams } from "react-router-dom";
 export default function AddPathParameters() {
   const { a, b } = useParams();

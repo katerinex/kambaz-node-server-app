@@ -1,3 +1,5 @@
+// src/Labs/Lab3/ConditionalOutputIfElse.tsx
+
 const ConditionalOutputIfElse = () => {
     const loggedIn = true;
     if(loggedIn) {

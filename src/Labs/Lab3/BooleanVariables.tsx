@@ -1,5 +1,5 @@
 // src/Labs/Lab3/BooleanVariables.tsx
-import React from 'react'; // Import React
+import React from 'react'; 
 
 const BooleanVariables: React.FC = () => { // Define a functional component
   let numberVariable = 123, floatingPointNumber = 234.345;
@@ -26,4 +26,4 @@ const BooleanVariables: React.FC = () => { // Define a functional component
   );
 };
 
-export default BooleanVariables; // Export the component
+export default BooleanVariables; 

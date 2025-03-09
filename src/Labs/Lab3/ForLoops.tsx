@@ -1,3 +1,4 @@
+//src/Labs/Lab3/ForLoops.tsx
 export default function ForLoops() {
     let stringArray1 = ["string1", "string3"];
     let stringArray2 = [];
