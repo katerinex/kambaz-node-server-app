@@ -1,3 +1,4 @@
+//src/Labs/Lab4/ParentStateComponent.tsx
 import  { useState } from "react";
 import ChildStateComponent from "./ChildStateComponent";
 export default function ParentStateComponent() {

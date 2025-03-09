@@ -1,3 +1,4 @@
+//src/Labs/Lab4/ClickEvent.tsx
 const hello = () => {
     alert("Hello World!");
   };

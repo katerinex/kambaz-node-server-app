@@ -1,3 +1,4 @@
+//src/Labs/Lab4/ChildStateComponent.tsx
 export default function ChildStateComponent({
     counter,
     setCounter

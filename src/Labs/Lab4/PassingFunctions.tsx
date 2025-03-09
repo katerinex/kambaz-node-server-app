@@ -1,3 +1,4 @@
+//src/Labs/Lab4/PassingFunctions.tsx
 export default function PassingFunctions(
     { theFunction }: { theFunction: () => void }) {
      return (

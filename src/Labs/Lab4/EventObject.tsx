@@ -1,3 +1,4 @@
+//src/Labs/Lab4/EventObject.tsx
 import  { useState } from "react";
 export default function EventObject() {
   const [event, setEvent] = useState(null);

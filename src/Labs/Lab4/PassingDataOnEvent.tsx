@@ -1,3 +1,4 @@
+//src/Labs/Lab4/PassingDataOnEvent.tsx
 const add = (a: number, b: number) => {
     alert(`${a} + ${b} = ${a + b}`);
   };
