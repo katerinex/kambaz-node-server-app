@@ -1,9 +1,9 @@
 // src/Kambaz/Courses/Modules/index.tsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
-import { ListGroup, Form, FormControl } from "react-bootstrap";
+import { ListGroup, FormControl } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,35 +17,58 @@ import {
 import * as coursesClient from "../client";
 import * as modulesClient from "./client";
 
-export default function Modules() {
-  const { cid } = useParams();
+interface ModulesProps {
+  courseId: string | undefined;
+}
+
+export default function Modules(props: ModulesProps) {
+  const { courseId } = props;
+  const { cid } = useParams<{ cid?: string }>(); // Make cid optional
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
 
   const fetchModules = async () => {
-    const fetchedModules = await coursesClient.findModulesForCourse(
-      cid as string
-    );
-    dispatch(setModules(fetchedModules));
+    try{
+      if (cid) {
+        const fetchedModules = await coursesClient.findModulesForCourse(
+          cid as string
+        );
+        dispatch(setModules(fetchedModules));
+      }
+    }catch(error){
+      console.error("Error fetching modules:", error);
+    }
   };
 
   const createModuleForCourse = async () => {
     if (!cid) return;
-    const newModule = { name: moduleName, course: cid };
-    const module = await coursesClient.createModuleForCourse(cid, newModule);
-    dispatch(addModule(module));
-    setModuleName(""); // Clear the input field after adding
+    try{
+      const newModule = { name: moduleName, course: cid };
+      const module = await coursesClient.createModuleForCourse(cid, newModule);
+      dispatch(addModule(module));
+      setModuleName(""); // Clear the input field after adding
+    } catch (error) {
+      console.error("Error creating module:", error);
+    }
   };
 
   const removeModule = async (moduleId: string) => {
-    await modulesClient.deleteModule(moduleId);
-    dispatch(deleteModule(moduleId));
+    try{
+      await modulesClient.deleteModule(moduleId);
+      dispatch(deleteModule(moduleId));
+    } catch (error){
+      console.error("Error deleting module:", error);
+    }
   };
 
   const saveModule = async (module: any) => {
-    await modulesClient.updateModule(module);
-    dispatch(updateModule(module));
+    try{
+      await modulesClient.updateModule(module);
+      dispatch(updateModule(module));
+    } catch (error) {
+      console.error("Error saving module:", error);
+    }
   };
 
   useEffect(() => {

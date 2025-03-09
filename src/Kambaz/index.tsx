@@ -13,12 +13,23 @@ import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
-import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
+import * as userClient from "./Account/client";
+
+interface Course {
+  _id: string;
+  name: string;
+  number: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  enrolled?: boolean;
+}
 
 export default function Kambaz() {
-  const [courses, setCourses] = useState<any[]>([]);
-  const [course, setCourse] = useState<any>({
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [courses, setCourses] = useState<Course[]>([]); // Initialize as an array
+  const [course, setCourse] = useState<Course>({
     _id: "1234",
     name: "New Course",
     number: "New Number",
@@ -26,26 +37,53 @@ export default function Kambaz() {
     endDate: "2023-12-15",
     description: "New Description",
   });
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [enrolling, setEnrolling] = useState<boolean>(false);
 
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
+    const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, newCourse]);
   };
 
   const deleteCourse = async (courseId: string) => {
-    await courseClient.deleteCourse(courseId);
+    const status = await courseClient.deleteCourse(courseId);
+    console.log("deleteCourse status:", status);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
-  const updateCourse = async () => {
-    await courseClient.updateCourse(course);
+  const updateCourse = async (updatedCourse: Course) => {
     setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
+      courses.map((c: Course) => {
+        if (c._id === updatedCourse._id) {
+          return updatedCourse;
         } else {
           return c;
+        }
+      })
+    );
+    await courseClient.updateCourse(updatedCourse);
+  };
+
+  const findCoursesForUser = async () => {
+    try {
+      const fetchedCourses = await userClient.findCoursesForUser(currentUser._id);
+      setCourses(fetchedCourses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+    if (enrolled) {
+      await userClient.enrollIntoCourse(currentUser._id, courseId);
+    } else {
+      await userClient.unenrollFromCourse(currentUser._id, courseId);
+    }
+    setCourses(
+      courses.map((course) => {
+        if (course._id === courseId) {
+          return { ...course, enrolled: enrolled };
+        } else {
+          return course;
         }
       })
     );
@@ -53,7 +91,17 @@ export default function Kambaz() {
 
   const fetchCourses = async () => {
     try {
-      const fetchedCourses = await userClient.findMyCourses();
+      const allCourses = await courseClient.findAllCourses();
+      const enrolledCourses = await userClient.findCoursesForUser(
+        currentUser._id
+      );
+      const fetchedCourses = allCourses.map((course: any) => {
+        if (enrolledCourses.find((c: any) => c._id === course._id)) {
+          return { ...course, enrolled: true };
+        } else {
+          return course;
+        }
+      });
       setCourses(fetchedCourses);
     } catch (error) {
       console.error(error);
@@ -61,8 +109,14 @@ export default function Kambaz() {
   };
 
   useEffect(() => {
-    fetchCourses();
-  }, [currentUser]);
+    if (currentUser) {
+      if (enrolling) {
+        fetchCourses();
+      } else {
+        findCoursesForUser();
+      }
+    }
+  }, [currentUser, enrolling]);
 
   return (
     <Provider store={store}>
@@ -77,7 +131,12 @@ export default function Kambaz() {
                 path="/Dashboard"
                 element={
                   <ProtectedRoute>
-                    <Dashboard courses={courses} />
+                    <Dashboard
+                      courses={courses}
+                      enrolling={enrolling}
+                      setEnrolling={setEnrolling}
+                      updateEnrollment={updateEnrollment}
+                    />
                   </ProtectedRoute>
                 }
               />
@@ -92,6 +151,9 @@ export default function Kambaz() {
                       addNewCourse={addNewCourse}
                       deleteCourse={deleteCourse}
                       updateCourse={updateCourse}
+                      enrolling={enrolling}
+                      setEnrolling={setEnrolling}
+                      updateEnrollment={updateEnrollment}
                     />
                   </ProtectedRoute>
                 }

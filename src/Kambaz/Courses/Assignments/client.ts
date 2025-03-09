@@ -1,4 +1,5 @@
 // src/Kambaz/Courses/Assignments/client.ts
+
 import axios from "axios";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
@@ -15,19 +16,19 @@ export const findAllAssignments = async () => {
 };
 
 export const findAssignmentById = async (assignmentId: string) => {
-  const response = await axios.get(`<span class="math-inline">\{ASSIGNMENTS\_API\}/</span>{assignmentId}`);
+  const response = await axios.get(`${ASSIGNMENTS_API}/${assignmentId}`);
   return response.data;
 };
 
 export const updateAssignment = async (assignment: any) => {
-  await axios.put(`<span class="math-inline">\{ASSIGNMENTS\_API\}/</span>{assignment._id}`, assignment);
+  await axios.put(`${ASSIGNMENTS_API}/${assignment._id}`, assignment);
 };
 
 export const deleteAssignment = async (assignmentId: string) => {
-  await axios.delete(`<span class="math-inline">\{ASSIGNMENTS\_API\}/</span>{assignmentId}`);
+  await axios.delete(`${ASSIGNMENTS_API}/${assignmentId}`);
 };
 
 export const findAssignmentsForCourse = async (courseId: string) => {
-  const response = await axios.get(`<span class="math-inline">\{REMOTE\_SERVER\}/api/courses/</span>{courseId}/assignments`);
+  const response = await axios.get(`${REMOTE_SERVER}/api/courses/${courseId}/assignments`);
   return response.data;
 };

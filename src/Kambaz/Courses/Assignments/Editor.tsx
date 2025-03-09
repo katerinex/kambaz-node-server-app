@@ -1,9 +1,11 @@
 // src/Kambaz/Courses/Assignments/Editor.tsx
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as client from "./client";
 
 const AssignmentEditor = () => {
   const { cid, aid } = useParams<{ cid: string; aid: string }>();
@@ -11,7 +13,6 @@ const AssignmentEditor = () => {
   const assignment = assignments.find((a: any) => a._id === aid);
   const [formData, setFormData] = useState<any>(
     assignment || {
-      _id: "",
       title: "",
       description: "",
       points: 0,
@@ -27,9 +28,8 @@ const AssignmentEditor = () => {
   useEffect(() => {
     if (assignment) {
       setFormData(assignment);
-    } else if(aid === 'new'){
+    } else if (aid === 'new') {
       setFormData({
-        _id: String(Date.now()),
         title: "",
         description: "",
         points: 0,
@@ -41,14 +41,20 @@ const AssignmentEditor = () => {
     }
   }, [assignment, cid, aid]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (assignment) {
-      dispatch(updateAssignment(formData));
-    } else {
-      dispatch(addAssignment(formData));
+    try {
+      if (assignment) {
+        await client.updateAssignment(formData);
+        dispatch(updateAssignment(formData));
+      } else {
+        const createdAssignment = await client.createAssignment(formData);
+        dispatch(addAssignment(createdAssignment));
+      }
+      navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Error saving assignment:", error);
     }
-    navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (
@@ -95,5 +101,6 @@ const AssignmentEditor = () => {
       </Form>
     </div>
   );
-}
+};
+
 export default AssignmentEditor;

@@ -7,7 +7,7 @@ import { LiaFileImportSolid } from "react-icons/lia";
 import { Button } from "react-bootstrap";
 
 interface CourseStatusProps {
-  courseId?: string;
+  courseId: string | undefined;
 }
 
 const CourseStatus: React.FC<CourseStatusProps> = () => {  // Removed unused parameter

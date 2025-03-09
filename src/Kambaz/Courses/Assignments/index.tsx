@@ -1,25 +1,40 @@
 // src/Kambaz/Courses/Assignments/index.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer"; // Corrected import
 import { Link, useNavigate, useParams } from "react-router-dom";
+import * as client from "./client";
 
 export default function Assignments() {
   const { cid } = useParams<{ cid: string }>();
-  const assignments = useSelector((state: any) => state.assignmentsReducer).filter((a:any)=>a.course===cid);
+  const assignments = useSelector((state: any) => state.assignmentsReducer).filter((a: any) => a.course === cid);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        if (cid) { // Check if cid is defined
+          const fetchedAssignments = await client.findAssignmentsForCourse(cid);
+          dispatch(setAssignments(fetchedAssignments));
+        }
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      }
+    };
+    fetchAssignments();
+  }, [cid, dispatch]);
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredAssignments = assignments.filter((assignment:any) =>
+  const filteredAssignments = assignments.filter((assignment: any) =>
     assignment.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -28,9 +43,14 @@ export default function Assignments() {
     setShowModal(true);
   };
 
-  const confirmDelete = () => {
-    dispatch(deleteAssignment(assignmentToDelete));
-    setShowModal(false);
+  const confirmDelete = async () => {
+    try {
+      await client.deleteAssignment(assignmentToDelete);
+      dispatch(deleteAssignment(assignmentToDelete));
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
   };
 
   return (
@@ -56,14 +76,14 @@ export default function Assignments() {
       </InputGroup>
 
       <ul className="list-group">
-        {filteredAssignments.map((assignment:any) => (
+        {filteredAssignments.map((assignment: any) => (
           <li key={assignment._id} className="list-group-item">
             <div className="wd-assignment-item">
               <Link to={`Assignments/${assignment._id}`}>
                 <h3>{assignment.title}</h3>
               </Link>
               <p>
-                {assignment.description} | Due {assignment.dueDate} | {assignment.points} pts
+                {assignment.description} | Due {assignment.dueDate} | {assignment.points} points
               </p>
               <Button variant="danger" onClick={() => handleDelete(assignment._id)}>Delete</Button>
             </div>

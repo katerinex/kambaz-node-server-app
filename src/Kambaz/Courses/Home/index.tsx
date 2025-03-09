@@ -5,7 +5,7 @@ import CourseStatus from "./Status";
 import CourseNavigation from "../Navigation";
 
 export default function Home() {
-  const { cid } = useParams();
+  const { cid } = useParams<{ cid?: string }>();
 
   return (
     <div className="d-flex" id="wd-home">
@@ -16,7 +16,7 @@ export default function Home() {
         <Modules courseId={cid} />
       </div>
       <div className="d-none d-xl-block">
-        {cid && ( // Conditional rendering: Only render if cid exists
+        {cid && (
           <CourseStatus courseId={cid} />
         )}
       </div>

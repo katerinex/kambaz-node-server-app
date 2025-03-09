@@ -1,6 +1,5 @@
 // src/Kambaz/Courses/Assignments/reducer.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import assignments from "../../Database/assignments.json";
 
 interface Assignment {
   _id: string;
@@ -13,7 +12,7 @@ interface Assignment {
   course: string;
 }
 
-const initialState: Assignment[] = assignments;
+const initialState: Assignment[] = []; // Initialize as an empty array
 
 const assignmentsSlice = createSlice({
   name: "assignments",
@@ -31,8 +30,11 @@ const assignmentsSlice = createSlice({
         state[index] = action.payload;
       }
     },
+    setAssignments: (state, action: PayloadAction<Assignment[]>) => {
+      return action.payload;
+    },
   },
 });
 
-export const { addAssignment, deleteAssignment, updateAssignment } = assignmentsSlice.actions;
+export const { addAssignment, deleteAssignment, updateAssignment, setAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
