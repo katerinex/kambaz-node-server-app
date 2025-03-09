@@ -1,6 +1,6 @@
 // src/Labs/Lab5/WorkingWithObjects.tsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormControl } from "react-bootstrap";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 

@@ -1,6 +1,6 @@
 // src/Labs/Lab5/WorkingWithObjectsAsynchronously.tsx
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import * as client from "./client";
 

@@ -1,6 +1,6 @@
 // src/Labs/Lab5/PathParameters.tsx
 import { FormControl } from "react-bootstrap";
-import React, { useState } from "react";
+import { useState } from "react";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export default function PathParameters() {
   const [a, setA] = useState("34");

@@ -1,6 +1,6 @@
 // src/Labs/Lab5/WorkingWithArraysAsynchronously.tsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ListGroup, FormControl } from "react-bootstrap";
 import { TiDelete } from "react-icons/ti";
 import * as client from "./client";
