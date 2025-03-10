@@ -4,12 +4,10 @@ import "dotenv/config";
 import express from "express";
 import Lab5 from "./Lab5/index.js";
 import cors from "cors";
-import Kambaz from "./Kambaz/index.js"; 
 import UserRoutes from "./Kambaz/Users/routes.js";
 import session from "express-session";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
 import Database from "./Kambaz/Database/index.js";
-import { v4 as uuidv4 } from "uuid";
 import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
@@ -55,7 +53,6 @@ AssignmentRoutes(app);
 EnrollmentRoutes(app);
 Database.connect();
 
-Kambaz(app); 
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Server listening on port ${process.env.PORT || 4000}`);
   });
