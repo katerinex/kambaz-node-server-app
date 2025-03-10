@@ -13,6 +13,9 @@ import ParentStateComponent from "./ParentStateComponent";
 import PassingDataOnEvent from "./PassingDataOnEvent";
 import StringStateVariables from "./StringStateVariables";
 import { useState } from "react";
+import AddRedux from "./ReduxExamples/AddRedux";
+import CounterRedux from "./ReduxExamples/CounterRedux";
+import HelloRedux from "./ReduxExamples/HelloRedux";
 
 export default function Lab4() {
   function sayHello() {
@@ -37,6 +40,12 @@ export default function Lab4() {
       <ParentStateComponent />
       <PassingDataOnEvent />
       <StringStateVariables />
+      <AddRedux />
+      <CounterRedux />
+      <HelloRedux />
+      <hr />
+      <h2>End of Lab 4</h2>
+      <hr />
     </div>
   );
 }

@@ -1,6 +1,9 @@
 // src/Labs/Lab4/ReduxExamples/CounterRedux/counterReducer.tsx
 
 import { createSlice } from "@reduxjs/toolkit";
+export interface CounterState {
+  count: number;
+}
 const initialState = {
   count: 0,
 };

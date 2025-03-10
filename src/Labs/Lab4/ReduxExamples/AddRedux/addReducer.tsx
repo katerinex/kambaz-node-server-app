@@ -1,4 +1,8 @@
+
 import { createSlice } from "@reduxjs/toolkit";
+export interface AddState {
+  sum: number;
+}
 const initialState = {
   sum: 0,
 };
