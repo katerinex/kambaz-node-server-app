@@ -51,6 +51,7 @@ CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
 EnrollmentRoutes(app);
+Database(app);
 
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Server listening on port ${process.env.PORT || 4000}`);
