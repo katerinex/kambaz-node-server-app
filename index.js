@@ -11,6 +11,7 @@ import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import mongoose from "mongoose";
+import Hello from "./Hello/index.js";
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING ||"mongodb://127.0.0.1:27017/kambaz"
 mongoose.connect(CONNECTION_STRING);
@@ -50,6 +51,7 @@ CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
 EnrollmentRoutes(app);
+Hello(app);
 
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Server listening on port ${process.env.PORT || 10000}`);
