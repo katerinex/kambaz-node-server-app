@@ -7,7 +7,6 @@ import cors from "cors";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import session from "express-session";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
-import Database from "./Kambaz/Database/index.js";
 import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
@@ -51,7 +50,6 @@ CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
 EnrollmentRoutes(app);
-Database(app);
 
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Server listening on port ${process.env.PORT || 10000}`);
