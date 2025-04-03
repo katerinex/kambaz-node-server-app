@@ -1,9 +1,12 @@
 // Kambaz/Enrollments/schema.js
 import mongoose from "mongoose";
+
 const enrollmentSchema = new mongoose.Schema(
   {
-    course: { type: mongoose.Schema.Types.ObjectId, ref: "CourseModel" },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel" },
+    // Add _id field as specified in your assignment
+    _id: String,
+    course: { type: String, ref: "CourseModel" }, // Changed from ObjectId to String
+    user: { type: String, ref: "UserModel" },     // Changed from ObjectId to String
     grade: Number,
     letterGrade: String,
     enrollmentDate: Date,
@@ -15,4 +18,5 @@ const enrollmentSchema = new mongoose.Schema(
   },
   { collection: "enrollments" }
 );
+
 export default enrollmentSchema;

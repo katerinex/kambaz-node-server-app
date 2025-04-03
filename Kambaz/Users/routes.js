@@ -1,10 +1,11 @@
-// Kambaz/Users/routes.js
+// Modified Kambaz/Users/routes.js - Fixed route order
 
 import * as dao from "./dao.js";
 import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
 
 export default function UserRoutes(app) {
+  // All route handlers remain the same as in your original file
   const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
@@ -64,6 +65,7 @@ export default function UserRoutes(app) {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
+      // Upon successful login, store the user object in the session.
       req.session["currentUser"] = currentUser;
       res.json(currentUser);
     } else {
@@ -77,11 +79,14 @@ export default function UserRoutes(app) {
   };
 
   const profile = async (req, res) => {
+    // Access the currentUser from the session.
     const currentUser = req.session["currentUser"];
+    // If currentUser is not found in the session, the user is not authenticated.
     if (!currentUser) {
-      res.sendStatus(401);
+      res.sendStatus(401); // Respond with Unauthorized status.
       return;
     }
+    // If currentUser exists in the session, send the user data back.
     res.json(currentUser);
   };
 
@@ -145,17 +150,31 @@ export default function UserRoutes(app) {
     res.send(status);
   };
 
+  // THE FIX: ROUTE ORDER REARRANGEMENT
+  // The order of routes is critical - more specific routes must be defined before generic ones
+  
+  // 1. Authentication and special routes first
+  app.post("/api/users/signin", signin);
+  app.post("/api/users/signup", signup);
+  app.post("/api/users/signout", signout);
+  app.post("/api/users/profile", profile);  // THIS CONFLICTED WITH /:userId
+  app.get("/api/users/profile", profile);   // Add GET endpoint for profile as well
+
+  // 2. Current user courses route
+  app.post("/api/users/current/courses", createCourse);
+  app.get("/api/users/current/courses", findCoursesForUser);
+
+  // 3. Generic collection routes
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
-  app.get("/api/users/:userId", findUserById);
+  
+  // 4. Parameterized routes last
+  app.get("/api/users/:userId", findUserById); // This was trying to treat "profile" as an ObjectId
   app.put("/api/users/:userId", updateUser);
   app.delete("/api/users/:userId", deleteUser);
-  app.post("/api/users/signup", signup);
-  app.post("/api/users/signin", signin);
-  app.post("/api/users/signout", signout);
-  app.post("/api/users/profile", profile);
   app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
-  app.post("/api/users/current/courses", createCourse);
+  
+  // 5. Other parameterized routes
   app.get("/api/users/:uid/courses", findCoursesForUser);
   app.post("/api/users/:uid/courses/:cid", enrollUserInCourse);
   app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
