@@ -15,7 +15,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error creating quiz", error: error.message });
     }
   });
-
+  
   // Get all quizzes
   app.get("/api/quizzes", async (req, res) => {
     console.log("GET /api/quizzes called");
@@ -27,7 +27,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching quizzes", error: error.message });
     }
   });
-
+  
   // Get a specific quiz by ID
   app.get("/api/quizzes/:quizId", async (req, res) => {
     console.log(`GET /api/quizzes/${req.params.quizId} called`);
@@ -42,7 +42,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching quiz", error: error.message });
     }
   });
-
+  
   // Update a quiz
   app.put("/api/quizzes/:quizId", async (req, res) => {
     console.log(`PUT /api/quizzes/${req.params.quizId} called with data:`, req.body);
@@ -60,7 +60,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error updating quiz", error: error.message });
     }
   });
-
+  
   // Delete a quiz
   app.delete("/api/quizzes/:quizId", async (req, res) => {
     console.log(`DELETE /api/quizzes/${req.params.quizId} called`);
@@ -76,7 +76,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error deleting quiz", error: error.message });
     }
   });
-
+  
   // Get quizzes for a specific course
   app.get("/api/courses/:courseId/quizzes", async (req, res) => {
     console.log(`GET /api/courses/${req.params.courseId}/quizzes called`);
@@ -90,6 +90,95 @@ export default function QuizRoutes(app) {
     } catch (error) {
       console.error(`Error fetching quizzes for course ${req.params.courseId}:`, error);
       res.status(500).json({ message: "Error fetching course quizzes", error: error.message });
+    }
+  });
+  
+  // =========== Quiz Attempt Routes ===========
+  
+  // Create a new quiz attempt
+  app.post("/api/quizzes/:quizId/attempts", async (req, res) => {
+    console.log(`POST /api/quizzes/${req.params.quizId}/attempts called with data:`, req.body);
+    try {
+      const attempt = {
+        ...req.body,
+        quizId: req.params.quizId
+      };
+      const newAttempt = await dao.createQuizAttempt(attempt);
+      res.json(newAttempt);
+    } catch (error) {
+      console.error("Error creating quiz attempt:", error);
+      res.status(500).json({ message: "Error creating quiz attempt", error: error.message });
+    }
+  });
+  
+  // Get a specific quiz attempt
+  app.get("/api/quiz-attempts/:attemptId", async (req, res) => {
+    console.log(`GET /api/quiz-attempts/${req.params.attemptId} called`);
+    try {
+      const attempt = await dao.findQuizAttemptById(req.params.attemptId);
+      if (!attempt) {
+        return res.status(404).json({ message: "Quiz attempt not found" });
+      }
+      res.json(attempt);
+    } catch (error) {
+      console.error(`Error fetching quiz attempt ${req.params.attemptId}:`, error);
+      res.status(500).json({ message: "Error fetching quiz attempt", error: error.message });
+    }
+  });
+  
+  // Get all attempts for a quiz by a user
+  app.get("/api/quizzes/:quizId/attempts", async (req, res) => {
+    console.log(`GET /api/quizzes/${req.params.quizId}/attempts called with query:`, req.query);
+    const userId = req.query.userId;
+    const isPreview = req.query.isPreview === 'true';
+    
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+    
+    try {
+      const attempts = await dao.findQuizAttemptsByQuizAndUser(
+        req.params.quizId, 
+        userId, 
+        isPreview
+      );
+      res.json(attempts);
+    } catch (error) {
+      console.error(`Error fetching quiz attempts for quiz ${req.params.quizId} and user ${userId}:`, error);
+      res.status(500).json({ message: "Error fetching quiz attempts", error: error.message });
+    }
+  });
+  
+  // Update a quiz attempt (add answers, complete, etc.)
+  app.put("/api/quiz-attempts/:attemptId", async (req, res) => {
+    console.log(`PUT /api/quiz-attempts/${req.params.attemptId} called with data:`, req.body);
+    try {
+      const result = await dao.updateQuizAttempt(req.params.attemptId, req.body);
+      if (result.modifiedCount > 0) {
+        const updatedAttempt = await dao.findQuizAttemptById(req.params.attemptId);
+        res.json(updatedAttempt);
+      } else {
+        res.status(404).json({ message: "Quiz attempt not found or not modified" });
+      }
+    } catch (error) {
+      console.error(`Error updating quiz attempt ${req.params.attemptId}:`, error);
+      res.status(500).json({ message: "Error updating quiz attempt", error: error.message });
+    }
+  });
+  
+  // Delete a quiz attempt
+  app.delete("/api/quiz-attempts/:attemptId", async (req, res) => {
+    console.log(`DELETE /api/quiz-attempts/${req.params.attemptId} called`);
+    try {
+      const result = await dao.deleteQuizAttempt(req.params.attemptId);
+      if (result.deletedCount > 0) {
+        res.sendStatus(204);
+      } else {
+        res.status(404).json({ message: "Quiz attempt not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting quiz attempt ${req.params.attemptId}:`, error);
+      res.status(500).json({ message: "Error deleting quiz attempt", error: error.message });
     }
   });
 }

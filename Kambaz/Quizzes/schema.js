@@ -1,29 +1,118 @@
 // Kambaz/Quizzes/schema.js
 import mongoose from "mongoose";
 
-const questionSchema = new mongoose.Schema({
-  _id: {
+// Schema for multiple choice or true/false question choice
+const choiceSchema = new mongoose.Schema({
+  id: {
     type: String,
-    required: true
-  },
-  type: {
-    type: String,
-    enum: ['multiple-choice', 'true-false', 'short-answer'],
     required: true
   },
   text: {
     type: String,
     required: true
   },
-  options: [String],
-  correctAnswer: mongoose.Schema.Types.Mixed
+  isCorrect: {
+    type: Boolean,
+    default: false
+  }
+});
+
+// Schema for fill in the blank answer
+const blankAnswerSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true
+  },
+  text: {
+    type: String,
+    required: true
+  }
+});
+
+// Updated question schema matching frontend structure
+const questionSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true
+  },
+  title: String,
+  questionType: {
+    type: String,
+    enum: ['multiple_choice', 'true_false', 'fill_blank', 'multiple-choice', 'true-false', 'short-answer'],
+    required: true
+  },
+  questionText: {
+    type: String,
+    required: true
+  },
+  text: String, // For backward compatibility
+  points: {
+    type: Number,
+    default: 1
+  },
+  choices: [choiceSchema],
+  options: [String], // For backward compatibility
+  correctAnswer: mongoose.Schema.Types.Mixed, // For both true/false questions and backward compatibility
+  blankAnswers: [blankAnswerSchema] // For fill in the blank questions
+});
+
+// Schema for a single answer to a question
+const quizAnswerSchema = new mongoose.Schema({
+  questionId: {
+    type: String,
+    required: true
+  },
+  answer: mongoose.Schema.Types.Mixed, // Can be string, array, boolean, etc.
+  isCorrect: Boolean
+});
+
+// Schema for quiz attempts
+const quizAttemptSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId().toString()
+  },
+  quizId: {
+    type: String,
+    ref: 'QuizModel',
+    required: true
+  },
+  userId: {
+    type: String,
+    required: true
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
+  score: {
+    type: Number,
+    default: 0
+  },
+  totalPoints: {
+    type: Number,
+    default: 0
+  },
+  answers: [quizAnswerSchema],
+  completed: {
+    type: Boolean,
+    default: false
+  },
+  timeSpent: {
+    type: Number,  // in seconds
+    default: 0
+  },
+  isPreview: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const quizSchema = new mongoose.Schema({
   // Add support for string IDs
   _id: {
     type: String,
-    required: true
+    default: () => new mongoose.Types.ObjectId().toString()
   },
   title: {
     type: String,
@@ -69,7 +158,7 @@ const quizSchema = new mongoose.Schema({
   },
   timeLimit: {
     type: Number,
-    default: 60
+    default: 20
   },
   multipleAttempts: {
     type: Boolean,
@@ -90,7 +179,7 @@ const quizSchema = new mongoose.Schema({
   accessCode: String,
   oneQuestionAtATime: {
     type: Boolean,
-    default: false
+    default: true
   },
   webcamRequired: {
     type: Boolean,
@@ -99,7 +188,9 @@ const quizSchema = new mongoose.Schema({
   lockQuestionsAfterAnswering: {
     type: Boolean,
     default: false
-  }
+  },
+  attempts: [quizAttemptSchema]
 }, { collection: "quizzes" });
 
 export default quizSchema;
+export { quizAttemptSchema };
