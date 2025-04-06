@@ -1,3 +1,5 @@
+// MongoDB collection for assignments
+
 export default 
 [
     { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101" },

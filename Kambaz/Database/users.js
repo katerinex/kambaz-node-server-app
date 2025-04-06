@@ -1,3 +1,5 @@
+// Mongodb database for users 
+
 export default 
 [
     {

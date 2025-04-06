@@ -12,7 +12,7 @@ import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import mongoose from "mongoose";
 import Hello from "./Hello.js";
 import SessionController from "./Lab5/SessionController.js";
-
+import QuizRoutes from "./Kambaz/Quizzes/routes.js"; // Ensure this is imported to register routes
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
 mongoose.connect(CONNECTION_STRING)
   .then(() => console.log("Connected to MongoDB"))
@@ -93,6 +93,7 @@ AssignmentRoutes(app);
 EnrollmentRoutes(app);
 Hello(app);
 SessionController(app);
+QuizRoutes(app); // Register the Quiz routes
 
 // Test endpoint
 app.get("/api/test", (req, res) => {

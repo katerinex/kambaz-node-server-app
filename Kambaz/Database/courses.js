@@ -1,5 +1,6 @@
 
 // Kambaz/Database/courses.js
+//Course data on MONGO DB
 export default 
 
 [

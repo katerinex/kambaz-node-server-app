@@ -1,11 +1,11 @@
-// Modified Kambaz/Users/routes.js - Fixed route order
+// Kambaz/Users/routes.js - Corrected route order and fixed createCourse
 
 import * as dao from "./dao.js";
 import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
 
 export default function UserRoutes(app) {
-  // All route handlers remain the same as in your original file
+  // Route handlers remain the same as in your file
   const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
@@ -90,92 +90,148 @@ export default function UserRoutes(app) {
     res.json(currentUser);
   };
 
-  const findCoursesForEnrolledUser = async (req, res) => {
-    let { userId } = req.params;
-    if (userId === "current") {
+  // ADD THIS FUNCTION - createCourse that was missing
+  const createCourse = async (req, res) => {
+    try {
       const currentUser = req.session["currentUser"];
       if (!currentUser) {
-        res.sendStatus(401);
+        res.status(401).json({ message: "You must be logged in to create a course" });
         return;
       }
-      userId = currentUser._id;
+      
+      console.log("Creating course with data:", req.body);
+      const newCourse = await courseDao.createCourse(req.body);
+      console.log("New course created:", newCourse);
+      
+      // Automatically enroll the creator in the course
+      if (newCourse && newCourse._id) {
+        try {
+          console.log(`Auto-enrolling creator (${currentUser._id}) in new course (${newCourse._id})`);
+          await enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+        } catch (enrollError) {
+          console.error("Error enrolling creator in course:", enrollError);
+          // Continue even if enrollment fails
+        }
+      }
+      
+      res.json(newCourse);
+    } catch (error) {
+      console.error("Error creating course:", error);
+      res.status(500).json({ message: "Error creating course", error: error.message });
     }
-    const courses = await courseDao.findCoursesForEnrolledUser(userId);
-    res.json(courses);
   };
 
-  const createCourse = async (req, res) => {
-    const currentUser = req.session["currentUser"];
-    const newCourse = await courseDao.createCourse(req.body);
-    await enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
-    res.json(newCourse);
-  };
-
+  // CONSOLIDATED findCoursesForUser to handle both current and specific users
   const findCoursesForUser = async (req, res) => {
+    // Check authentication first
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
+
+    // Get the user ID - either from params or current user
+    let userId = req.params.userId;
+    
+    if (userId === "current") {
+      userId = currentUser._id;
+    }
+    
+    // If admin, return all courses
     if (currentUser.role === "ADMIN") {
       const courses = await courseDao.findAllCourses();
       res.json(courses);
       return;
     }
-    let { uid } = req.params;
-    if (uid === "current") {
-      uid = currentUser._id;
+    
+    console.log(`Finding courses for user ID: ${userId}`);
+    
+    try {
+      // Get courses from enrollments
+      const courses = await enrollmentsDao.findCoursesForUser(userId);
+      console.log(`Found ${courses?.length || 0} courses for user ${userId}`);
+      res.json(courses || []);
+    } catch (error) {
+      console.error("Error fetching courses for user:", error);
+      res.status(500).json({ message: "Error fetching courses", error: error.message });
     }
-    const courses = await enrollmentsDao.findCoursesForUser(uid);
-    res.json(courses);
   };
 
   const enrollUserInCourse = async (req, res) => {
-    let { uid, cid } = req.params;
-    if (uid === "current") {
-      const currentUser = req.session["currentUser"];
-      uid = currentUser._id;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
     }
-    const status = await enrollmentsDao.enrollUserInCourse(uid, cid);
-    res.send(status);
+    
+    let userId = req.params.userId;
+    const courseId = req.params.courseId;
+    
+    if (userId === "current") {
+      userId = currentUser._id;
+    }
+    
+    if (!courseId || courseId === "undefined") {
+      return res.status(400).json({ error: "Invalid course ID" });
+    }
+    
+    console.log(`Enrolling user ${userId} in course ${courseId}`);
+    
+    try {
+      const status = await enrollmentsDao.enrollUserInCourse(userId, courseId);
+      res.json(status);
+    } catch (error) {
+      console.error("Error enrolling user:", error);
+      res.status(400).json({ error: error.message });
+    }
   };
 
   const unenrollUserFromCourse = async (req, res) => {
-    let { uid, cid } = req.params;
-    if (uid === "current") {
-      const currentUser = req.session["currentUser"];
-      uid = currentUser._id;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
     }
-    const status = await enrollmentsDao.unenrollUserFromCourse(uid, cid);
-    res.send(status);
+    
+    let userId = req.params.userId;
+    const courseId = req.params.courseId;
+    
+    if (userId === "current") {
+      userId = currentUser._id;
+    }
+    
+    try {
+      const status = await enrollmentsDao.unenrollUserFromCourse(userId, courseId);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error unenrolling user:", error);
+      res.status(400).json({ error: error.message });
+    }
   };
 
-  // THE FIX: ROUTE ORDER REARRANGEMENT
-  // The order of routes is critical - more specific routes must be defined before generic ones
+  // THE FIX: ROUTE ORDER AND CONSISTENT PARAMETER NAMING
   
   // 1. Authentication and special routes first
   app.post("/api/users/signin", signin);
   app.post("/api/users/signup", signup);
   app.post("/api/users/signout", signout);
-  app.post("/api/users/profile", profile);  // THIS CONFLICTED WITH /:userId
-  app.get("/api/users/profile", profile);   // Add GET endpoint for profile as well
-
-  // 2. Current user courses route
+  app.get("/api/users/profile", profile);   // Use only GET, since you're retrieving data
+  
+  // 2. Current user special routes
   app.post("/api/users/current/courses", createCourse);
   app.get("/api/users/current/courses", findCoursesForUser);
-
-  // 3. Generic collection routes
+  
+  // 3. Collection level routes
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   
-  // 4. Parameterized routes last
-  app.get("/api/users/:userId", findUserById); // This was trying to treat "profile" as an ObjectId
+  // 4. User-specific routes - CONSISTENT parameter naming (userId)
+  app.get("/api/users/:userId", findUserById);
   app.put("/api/users/:userId", updateUser);
   app.delete("/api/users/:userId", deleteUser);
-  app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
   
-  // 5. Other parameterized routes
-  app.get("/api/users/:uid/courses", findCoursesForUser);
-  app.post("/api/users/:uid/courses/:cid", enrollUserInCourse);
-  app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
+  // 5. User courses routes - CONSISTENT parameter naming
+  app.get("/api/users/:userId/courses", findCoursesForUser);
+  app.post("/api/users/:userId/courses/:courseId", enrollUserInCourse);  
+  app.delete("/api/users/:userId/courses/:courseId", unenrollUserFromCourse);
 }
