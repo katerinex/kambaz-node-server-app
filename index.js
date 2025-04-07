@@ -12,7 +12,8 @@ import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import mongoose from "mongoose";
 import Hello from "./Hello.js";
 import SessionController from "./Lab5/SessionController.js";
-import QuizRoutes from "./Kambaz/Quizzes/routes.js"; // Ensure this is imported to register routes
+import QuizRoutes from "./Kambaz/Quizzes/routes.js"; 
+
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
 mongoose.connect(CONNECTION_STRING)
@@ -20,6 +21,10 @@ mongoose.connect(CONNECTION_STRING)
   .catch(err => console.error("MongoDB connection error:", err));
 
 const app = express();
+
+// Trust proxy - critical for cookies to work through Render/Netlify
+app.set('trust proxy', process.env.TRUST_PROXY === '1' ? 1 : 0);
+console.log(`Trust proxy setting: ${process.env.TRUST_PROXY === '1' ? 'enabled' : 'disabled'}`);
 
 // Multiple origins CORS configuration
 const FRONTEND_URLS = [
