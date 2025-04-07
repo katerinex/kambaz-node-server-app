@@ -1,4 +1,5 @@
 // index.js
+// index.js
 import "dotenv/config";
 import express from "express";
 import Lab5 from "./Lab5/index.js";
@@ -14,7 +15,6 @@ import Hello from "./Hello.js";
 import SessionController from "./Lab5/SessionController.js";
 import QuizRoutes from "./Kambaz/Quizzes/routes.js"; 
 
-
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
 mongoose.connect(CONNECTION_STRING)
   .then(() => console.log("Connected to MongoDB"))
@@ -22,22 +22,24 @@ mongoose.connect(CONNECTION_STRING)
 
 const app = express();
 
-// Trust proxy - critical for cookies to work through Render/Netlify
+// Enable trust proxy in production environments
+// This is critical for cookies with SameSite=None, Secure to work
 app.set('trust proxy', process.env.TRUST_PROXY === '1' ? 1 : 0);
 console.log(`Trust proxy setting: ${process.env.TRUST_PROXY === '1' ? 'enabled' : 'disabled'}`);
 
 // Multiple origins CORS configuration
 const FRONTEND_URLS = [
   process.env.NETLIFY_URL,
-  "https://jovial-elf-866e6f.netlify.app", // Add the explicit production URL
+  "https://jovial-elf-866e6f.netlify.app", 
   "http://localhost:5173",
   "http://127.0.0.1:5173",
   "https://jovial-elf-866e6f.netlify.app/#/Kambaz/Account/Signin",
-  "https://67f332f27c1cd900085812db--jovial-elf-866e6f.netlify.app/"
+  "https://67f332f27c1cd900085812db--jovial-elf-866e6f.netlify.app"
 ].filter(Boolean); 
 
 console.log("Allowed CORS origins:", FRONTEND_URLS);
 
+// CORS middleware with improved configuration
 app.use(
   cors({
     credentials: true,
@@ -48,16 +50,33 @@ app.use(
       if (FRONTEND_URLS.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        console.warn(`Origin ${origin} not allowed by CORS`);
-        callback(new Error('Not allowed by CORS'));
+        console.warn(`Origin ${origin} not allowed by CORS: ${origin}`);
+        // During development/troubleshooting, allow all origins
+        // In production, you would use the line below instead
+        callback(null, true); // Allow unknown origins during troubleshooting
+        // callback(new Error('Not allowed by CORS'));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization", "X-User-Id"]
   })
 );
 
-// Session configuration with enhanced settings for production
+// Add token auth middleware - to handle X-User-Id header
+app.use((req, res, next) => {
+  const userId = req.headers['x-user-id'];
+  
+  // If we have a user ID in the header but no session user, try to load the user
+  if (userId && (!req.session || !req.session.currentUser)) {
+    // Logic to find and set the user based on ID would go here
+    // For now, we'll just log it
+    console.log(`Token auth attempt with user ID: ${userId}`);
+  }
+  
+  next();
+});
+
+// Session configuration 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
@@ -68,7 +87,7 @@ const sessionOptions = {
   }
 };
 
-// Production cookie settings with detailed logging
+// Production cookie settings 
 if (process.env.NODE_ENV !== "development") {
   console.log("Configuring session for production environment");
   sessionOptions.proxy = true;
@@ -97,6 +116,20 @@ app.use(session(sessionOptions));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// CORS test endpoint
+app.get("/api/cors-test", (req, res) => {
+  res.json({
+    message: "CORS is working properly",
+    headers: {
+      origin: req.headers.origin,
+      referer: req.headers.referer,
+      'x-user-id': req.headers['x-user-id']
+    },
+    cookies: req.cookies,
+    sessionId: req.session?.id || "no session"
+  });
+});
 
 // Add debug middleware to log session details on each request
 app.use((req, res, next) => {
@@ -127,11 +160,15 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-// Auth check endpoint for debugging
+// Auth check endpoint for debugging - updated to check for X-User-Id header too
 app.get("/api/auth-status", (req, res) => {
+  // Check for token-based auth via header
+  const userId = req.headers['x-user-id'];
+  
   res.json({
-    isAuthenticated: !!req.session.currentUser,
+    isAuthenticated: !!req.session.currentUser || !!userId,
     sessionId: req.session.id,
+    tokenAuth: !!userId,
     user: req.session.currentUser ? {
       id: req.session.currentUser._id,
       username: req.session.currentUser.username,
