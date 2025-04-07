@@ -31,8 +31,10 @@ const FRONTEND_URLS = [
   process.env.NETLIFY_URL,
   "https://jovial-elf-866e6f.netlify.app", // Add the explicit production URL
   "http://localhost:5173",
-  "http://127.0.0.1:5173"
-].filter(Boolean); // Filter out undefined/null values
+  "http://127.0.0.1:5173",
+  "https://jovial-elf-866e6f.netlify.app/#/Kambaz/Account/Signin",
+  "https://67f332f27c1cd900085812db--jovial-elf-866e6f.netlify.app/"
+].filter(Boolean); 
 
 console.log("Allowed CORS origins:", FRONTEND_URLS);
 
