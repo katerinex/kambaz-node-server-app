@@ -1,8 +1,23 @@
-// Kambaz/Users/routes.js - Corrected route order and fixed createCourse
+// Kambaz/Users/routes.js 
 
 import * as dao from "./dao.js";
 import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
+
+// Authentication middleware
+const requireAuth = (req, res, next) => {
+  console.log("Auth check - Session status:", !!req.session);
+  console.log("Auth check - Current user:", req.session?.currentUser ? 
+    `ID: ${req.session.currentUser._id}, Username: ${req.session.currentUser.username}` : 
+    "No user");
+  
+  if (!req.session || !req.session.currentUser) {
+    console.log("Authentication required but user not logged in");
+    return res.status(401).json({ message: "Authentication required" });
+  }
+  
+  next();
+};
 
 export default function UserRoutes(app) {
   // Route handlers remain the same as in your file
@@ -51,30 +66,63 @@ export default function UserRoutes(app) {
   };
 
   const signup = async (req, res) => {
-    const user = await dao.findUserByUsername(req.body.username);
-    if (user) {
-      res.status(400).json({ message: "Username already in use" });
-      return;
+    try {
+      const user = await dao.findUserByUsername(req.body.username);
+      if (user) {
+        res.status(400).json({ message: "Username already in use" });
+        return;
+      }
+      const newUser = await dao.createUser(req.body);
+      req.session["currentUser"] = newUser;
+      
+      console.log("User created and session set:", {
+        id: req.session.id,
+        user: {
+          _id: newUser._id,
+          username: newUser.username,
+          role: newUser.role
+        }
+      });
+      
+      res.json(newUser);
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(500).json({ message: "Error during signup" });
     }
-    const newUser = await dao.createUser(req.body);
-    req.session["currentUser"] = newUser;
-    res.json(newUser);
   };
 
   const signin = async (req, res) => {
-    const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
-    if (currentUser) {
-      // Upon successful login, store the user object in the session.
-      req.session["currentUser"] = currentUser;
-      res.json(currentUser);
-    } else {
-      res.status(401).json({ message: "Unable to login. Try again later." });
+    try {
+      const { username, password } = req.body;
+      const currentUser = await dao.findUserByCredentials(username, password);
+      
+      if (currentUser) {
+        // Upon successful login, store the user object in the session.
+        req.session["currentUser"] = currentUser;
+        
+        console.log("User authenticated and session set:", {
+          id: req.session.id,
+          user: {
+            _id: currentUser._id,
+            username: currentUser.username,
+            role: currentUser.role
+          }
+        });
+        
+        res.json(currentUser);
+      } else {
+        res.status(401).json({ message: "Invalid username or password" });
+      }
+    } catch (error) {
+      console.error("Signin error:", error);
+      res.status(500).json({ message: "Error during signin" });
     }
   };
 
   const signout = (req, res) => {
+    const hadUser = !!req.session.currentUser;
     req.session.destroy();
+    console.log("User signed out, session destroyed. Had user:", hadUser);
     res.sendStatus(200);
   };
 
@@ -83,11 +131,41 @@ export default function UserRoutes(app) {
     const currentUser = req.session["currentUser"];
     // If currentUser is not found in the session, the user is not authenticated.
     if (!currentUser) {
-      res.sendStatus(401); // Respond with Unauthorized status.
+      console.log("Profile request denied - not authenticated");
+      res.status(401).json({ message: "Authentication required" });
       return;
     }
     // If currentUser exists in the session, send the user data back.
+    console.log("Profile request - authenticated user:", currentUser.username);
     res.json(currentUser);
+  };
+
+  // Authentication check endpoint for debugging
+  const checkAuth = async (req, res) => {
+    const currentUser = req.session["currentUser"];
+    console.log("Auth check - Session:", {
+      id: req.session?.id,
+      user: currentUser ? {
+        _id: currentUser._id, 
+        username: currentUser.username
+      } : null
+    });
+    
+    if (currentUser) {
+      return res.json({
+        isAuthenticated: true,
+        user: {
+          _id: currentUser._id,
+          username: currentUser.username,
+          role: currentUser.role
+        }
+      });
+    } else {
+      return res.json({
+        isAuthenticated: false,
+        message: "No active session found"
+      });
+    }
   };
 
   // ADD THIS FUNCTION - createCourse that was missing
@@ -126,7 +204,8 @@ export default function UserRoutes(app) {
     // Check authentication first
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
-      res.sendStatus(401);
+      console.log("Find courses for user denied - not authenticated");
+      res.status(401).json({ message: "Authentication required" });
       return;
     }
 
@@ -140,6 +219,7 @@ export default function UserRoutes(app) {
     // If admin, return all courses
     if (currentUser.role === "ADMIN") {
       const courses = await courseDao.findAllCourses();
+      console.log(`Admin user ${currentUser.username} - returning all ${courses.length} courses`);
       res.json(courses);
       return;
     }
@@ -160,7 +240,7 @@ export default function UserRoutes(app) {
   const enrollUserInCourse = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
-      res.sendStatus(401);
+      res.status(401).json({ message: "Authentication required" });
       return;
     }
     
@@ -189,7 +269,7 @@ export default function UserRoutes(app) {
   const unenrollUserFromCourse = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
-      res.sendStatus(401);
+      res.status(401).json({ message: "Authentication required" });
       return;
     }
     
@@ -216,10 +296,11 @@ export default function UserRoutes(app) {
   app.post("/api/users/signup", signup);
   app.post("/api/users/signout", signout);
   app.get("/api/users/profile", profile);   // Use only GET, since you're retrieving data
+  app.get("/api/users/check-auth", checkAuth); // Add auth check endpoint
   
   // 2. Current user special routes
-  app.post("/api/users/current/courses", createCourse);
-  app.get("/api/users/current/courses", findCoursesForUser);
+  app.post("/api/users/current/courses", requireAuth, createCourse);
+  app.get("/api/users/current/courses", requireAuth, findCoursesForUser);
   
   // 3. Collection level routes
   app.post("/api/users", createUser);
@@ -227,11 +308,11 @@ export default function UserRoutes(app) {
   
   // 4. User-specific routes - CONSISTENT parameter naming (userId)
   app.get("/api/users/:userId", findUserById);
-  app.put("/api/users/:userId", updateUser);
-  app.delete("/api/users/:userId", deleteUser);
+  app.put("/api/users/:userId", requireAuth, updateUser);
+  app.delete("/api/users/:userId", requireAuth, deleteUser);
   
   // 5. User courses routes - CONSISTENT parameter naming
-  app.get("/api/users/:userId/courses", findCoursesForUser);
-  app.post("/api/users/:userId/courses/:courseId", enrollUserInCourse);  
-  app.delete("/api/users/:userId/courses/:courseId", unenrollUserFromCourse);
+  app.get("/api/users/:userId/courses", requireAuth, findCoursesForUser);
+  app.post("/api/users/:userId/courses/:courseId", requireAuth, enrollUserInCourse);  
+  app.delete("/api/users/:userId/courses/:courseId", requireAuth, unenrollUserFromCourse);
 }
