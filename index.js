@@ -1,5 +1,4 @@
 // index.js
-// index.js
 import "dotenv/config";
 import express from "express";
 import Lab5 from "./Lab5/index.js";
@@ -58,23 +57,9 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-User-Id"]
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
-
-// Add token auth middleware - to handle X-User-Id header
-app.use((req, res, next) => {
-  const userId = req.headers['x-user-id'];
-  
-  // If we have a user ID in the header but no session user, try to load the user
-  if (userId && (!req.session || !req.session.currentUser)) {
-    // Logic to find and set the user based on ID would go here
-    // For now, we'll just log it
-    console.log(`Token auth attempt with user ID: ${userId}`);
-  }
-  
-  next();
-});
 
 // Session configuration 
 const sessionOptions = {
@@ -123,8 +108,7 @@ app.get("/api/cors-test", (req, res) => {
     message: "CORS is working properly",
     headers: {
       origin: req.headers.origin,
-      referer: req.headers.referer,
-      'x-user-id': req.headers['x-user-id']
+      referer: req.headers.referer
     },
     cookies: req.cookies,
     sessionId: req.session?.id || "no session"
@@ -160,15 +144,11 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-// Auth check endpoint for debugging - updated to check for X-User-Id header too
+// Auth check endpoint for debugging - simplified for session-only auth
 app.get("/api/auth-status", (req, res) => {
-  // Check for token-based auth via header
-  const userId = req.headers['x-user-id'];
-  
   res.json({
-    isAuthenticated: !!req.session.currentUser || !!userId,
+    isAuthenticated: !!req.session.currentUser,
     sessionId: req.session.id,
-    tokenAuth: !!userId,
     user: req.session.currentUser ? {
       id: req.session.currentUser._id,
       username: req.session.currentUser.username,

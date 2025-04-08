@@ -119,67 +119,6 @@ export default function UserRoutes(app) {
     }
   };
 
-  // Token-based authentication to handle cross-domain authentication
-  const tokenSignin = async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      console.log(`Token auth attempt for user: ${username}`);
-      const currentUser = await dao.findUserByCredentials(username, password);
-      
-      if (currentUser) {
-        // Store user in session as usual (for local testing)
-        req.session["currentUser"] = currentUser;
-        
-        console.log(`Token authentication successful for: ${currentUser.username}`);
-        
-        // Return user data directly (client will store in localStorage/Redux)
-        res.json({
-          _id: currentUser._id,
-          username: currentUser.username,
-          firstName: currentUser.firstName,
-          lastName: currentUser.lastName,
-          role: currentUser.role,
-          // Don't send password back to client
-        });
-      } else {
-        console.log(`Token authentication failed for: ${username}`);
-        res.status(401).json({ message: "Invalid username or password" });
-      }
-    } catch (error) {
-      console.error("Token signin error:", error);
-      res.status(500).json({ message: "Error during signin" });
-    }
-  };
-
-  // Token-based signup
-  const tokenSignup = async (req, res) => {
-    try {
-      const user = await dao.findUserByUsername(req.body.username);
-      if (user) {
-        res.status(400).json({ message: "Username already in use" });
-        return;
-      }
-      const newUser = await dao.createUser(req.body);
-      
-      // Store in session too for consistency
-      req.session["currentUser"] = newUser;
-      
-      console.log(`New user created: ${newUser.username}`);
-      
-      res.json({
-        _id: newUser._id,
-        username: newUser.username,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        role: newUser.role,
-        // Don't send password back to client
-      });
-    } catch (error) {
-      console.error("Token signup error:", error);
-      res.status(500).json({ message: "Error during signup" });
-    }
-  };
-
   const signout = (req, res) => {
     const hadUser = !!req.session.currentUser;
     req.session.destroy();
@@ -355,10 +294,6 @@ export default function UserRoutes(app) {
   app.post("/api/users/signout", signout);
   app.get("/api/users/profile", profile);
   app.get("/api/users/check-auth", checkAuth);
-  
-  // Token-based authentication routes
-  app.post("/api/users/token-signin", tokenSignin);
-  app.post("/api/users/token-signup", tokenSignup);
   
   // 2. Current user special routes
   app.post("/api/users/current/courses", requireAuth, createCourse);
