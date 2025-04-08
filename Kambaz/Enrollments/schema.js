@@ -38,12 +38,12 @@ const enrollmentSchema = new mongoose.Schema(
   },
   { 
     collection: "enrollments",
-    // Add timestamps for better debugging
+    
     timestamps: true
   }
 );
 
-// Add a compound index to prevent duplicate enrollments
+//  prevent duplicate enrollments
 enrollmentSchema.index({ user: 1, course: 1 }, { unique: true });
 
 export default enrollmentSchema;
