@@ -1,5 +1,4 @@
 // Kambaz/Modules/dao.js
-
 import model from "./model.js";
 
 export const createModule = async (module) => {
@@ -18,12 +17,10 @@ export const findModulesForCourse = async (courseId) => {
     console.log(`Finding modules for course: ${courseId}`);
     const modules = await model.find({ course: courseId });
     console.log(`Found ${modules.length} modules for course ${courseId}`);
-    
     // Log first module for debugging if any were found
     if (modules.length > 0) {
       console.log("First module sample:", JSON.stringify(modules[0], null, 2));
     }
-    
     return modules;
   } catch (error) {
     console.error(`Error finding modules for course ${courseId}:`, error);
@@ -53,15 +50,22 @@ export const deleteModule = async (moduleId) => {
   }
 };
 
-export const updateModule = async (moduleId, moduleUpdates) => {
+export const updateModule = async (module) => {
   try {
-    console.log(`Updating module ${moduleId} with:`, moduleUpdates);
-    return await model.updateOne(
+    const moduleId = module._id;
+    console.log(`Updating module ${moduleId} with:`, JSON.stringify(module, null, 2));
+    
+    // Update the entire module document using findOneAndUpdate
+    const result = await model.findOneAndUpdate(
       { _id: moduleId },
-      { $set: moduleUpdates }
+      module,
+      { new: true } // Return the updated document
     );
+    
+    console.log(`Update result:`, result);
+    return result;
   } catch (error) {
-    console.error(`Error updating module ${moduleId}:`, error);
+    console.error(`Error updating module ${module._id}:`, error);
     throw error;
   }
 };
