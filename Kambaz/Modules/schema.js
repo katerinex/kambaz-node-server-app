@@ -43,7 +43,7 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    // Add lessons array to schema to match your data
+    // Add lessons array to schema 
     lessons: [lessonSchema]
   },
   { collection: "modules" }
