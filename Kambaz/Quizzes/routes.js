@@ -3,7 +3,7 @@ import * as dao from "./dao.js";
 
 export default function QuizRoutes(app) {
   console.log("Registering Quiz Routes");
-  
+
   // Create a new quiz
   app.post("/api/quizzes", async (req, res) => {
     console.log("POST /api/quizzes called with data:", req.body);
@@ -15,7 +15,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error creating quiz", error: error.message });
     }
   });
-  
+
   // Get all quizzes
   app.get("/api/quizzes", async (req, res) => {
     console.log("GET /api/quizzes called");
@@ -27,7 +27,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching quizzes", error: error.message });
     }
   });
-  
+
   // Get a specific quiz by ID
   app.get("/api/quizzes/:quizId", async (req, res) => {
     console.log(`GET /api/quizzes/${req.params.quizId} called`);
@@ -42,7 +42,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching quiz", error: error.message });
     }
   });
-  
+
   // Update a quiz
   app.put("/api/quizzes/:quizId", async (req, res) => {
     console.log(`PUT /api/quizzes/${req.params.quizId} called with data:`, req.body);
@@ -60,7 +60,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error updating quiz", error: error.message });
     }
   });
-  
+
   // Delete a quiz
   app.delete("/api/quizzes/:quizId", async (req, res) => {
     console.log(`DELETE /api/quizzes/${req.params.quizId} called`);
@@ -76,7 +76,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error deleting quiz", error: error.message });
     }
   });
-  
+
   // Get quizzes for a specific course
   app.get("/api/courses/:courseId/quizzes", async (req, res) => {
     console.log(`GET /api/courses/${req.params.courseId}/quizzes called`);
@@ -92,17 +92,37 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching course quizzes", error: error.message });
     }
   });
-  
+
   // =========== Quiz Attempt Routes ===========
-  
+
   // Create a new quiz attempt
   app.post("/api/quizzes/:quizId/attempts", async (req, res) => {
     console.log(`POST /api/quizzes/${req.params.quizId}/attempts called with data:`, req.body);
+    console.log("HIT ATTEMPTS ROUTE");
+    const quizId = req.params.quizId;
+    const userId = req.body.userId; 
+    console.log(`USER ID: ${userId}`);
+
     try {
+      const quiz = await dao.findQuizById(quizId);
+      if (!quiz) {
+        return res.status(404).json({ message: "Quiz not found" });
+      }
+  
+      if (!quiz.multipleAttempts) {
+        const previousAttempts = await dao.findQuizAttemptsByQuizAndUser(quizId, userId);
+        if (previousAttempts.length >= quiz.attemptsAllowed) {
+          return res.status(403).json({ message: "Max number of attempts reached" });
+        }
+      }
+
       const attempt = {
         ...req.body,
-        quizId: req.params.quizId
+        userId,
+        quizId,
+        _id: (new Date()).getTime()
       };
+
       const newAttempt = await dao.createQuizAttempt(attempt);
       res.json(newAttempt);
     } catch (error) {
@@ -110,7 +130,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error creating quiz attempt", error: error.message });
     }
   });
-  
+
   // Get a specific quiz attempt
   app.get("/api/quiz-attempts/:attemptId", async (req, res) => {
     console.log(`GET /api/quiz-attempts/${req.params.attemptId} called`);
@@ -125,30 +145,35 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error fetching quiz attempt", error: error.message });
     }
   });
-  
+
   // Get all attempts for a quiz by a user
   app.get("/api/quizzes/:quizId/attempts", async (req, res) => {
     console.log(`GET /api/quizzes/${req.params.quizId}/attempts called with query:`, req.query);
-    const userId = req.query.userId;
+    const userId = req.session["currentUser"] || req.query.userId;
     const isPreview = req.query.isPreview === 'true';
+    console.log("Session:", req.session);
+    console.log("Query:", req.query);
+    console.log("Resolved userId:", userId);
     
     if (!userId) {
       return res.status(400).json({ message: "User ID is required" });
     }
-    
+
     try {
       const attempts = await dao.findQuizAttemptsByQuizAndUser(
-        req.params.quizId, 
-        userId, 
+        req.params.quizId,
+        userId,
         isPreview
       );
+
+      console.log("ATTEMPTS", attempts);
       res.json(attempts);
     } catch (error) {
       console.error(`Error fetching quiz attempts for quiz ${req.params.quizId} and user ${userId}:`, error);
       res.status(500).json({ message: "Error fetching quiz attempts", error: error.message });
     }
   });
-  
+
   // Update a quiz attempt (add answers, complete, etc.)
   app.put("/api/quiz-attempts/:attemptId", async (req, res) => {
     console.log(`PUT /api/quiz-attempts/${req.params.attemptId} called with data:`, req.body);
@@ -165,7 +190,7 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error updating quiz attempt", error: error.message });
     }
   });
-  
+
   // Delete a quiz attempt
   app.delete("/api/quiz-attempts/:attemptId", async (req, res) => {
     console.log(`DELETE /api/quiz-attempts/${req.params.attemptId} called`);
@@ -181,4 +206,4 @@ export default function QuizRoutes(app) {
       res.status(500).json({ message: "Error deleting quiz attempt", error: error.message });
     }
   });
-}
+};

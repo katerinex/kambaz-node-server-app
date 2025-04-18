@@ -81,23 +81,33 @@ export const findQuizzesForCourse = async (courseId) => {
   }
 };
 
-// Quiz Attempt functions
-export const createQuizAttempt = async (attempt) => {
+export const createQuizAttempt = async (newAttempt) => {
+  console.log("IN CREATE QUIZ ATTMEMPT");
+  const { quizId, userId } = newAttempt;
+
+  const existingAttempts = await QuizAttemptModel.find({ quizId, userId });
+  const quiz = await QuizModel.findById(quizId);
+  
+  if (quiz.multipleAttempts && existingAttempts.length >= quiz.attemptsAllowed) {
+    throw new Error("Maximum number of attempts reached.");
+  }
   try {
-    console.log("Creating quiz attempt:", attempt);
+    console.log("Creating quiz attempt:", newAttempt);
     // Create the attempt in the standalone collection
-    const newAttempt = await QuizAttemptModel.create(attempt);
-    
-    // Also add it to the quiz's attempts array
-    await QuizModel.updateOne(
-      { _id: attempt.quizId },
-      { $push: { attempts: newAttempt } }
-    );
-    
-    return newAttempt;
+    const createdAttempt = await QuizAttemptModel.create(newAttempt);
+
+    // Optionally, also add it to the quiz's attempts array if needed
+    // await QuizModel.updateOne(
+    //   { _id: newAttempt.quizId },
+    //   { $push: { attempts: createdAttempt._id } } // Save only the created attempt's ID
+    // );
+
+    console.log("Created attempt:", createdAttempt);  // Log to see the created attempt
+
+    return createdAttempt;  // Return the actual saved attempt
   } catch (error) {
     console.error("Error creating quiz attempt:", error);
-    throw error;
+    throw error;  // Propagate error so the route can handle it
   }
 };
 
@@ -115,52 +125,48 @@ export const findQuizAttemptById = async (attemptId) => {
 
 export const findQuizAttemptsByQuizAndUser = async (quizId, userId, isPreview = false) => {
   try {
-    console.log(`Finding quiz attempts for quiz ${quizId} and user ${userId} (isPreview: ${isPreview})`);
-    
-    const query = { 
-      quizId: quizId,
-      userId: userId 
+    const query = {
+      quizId: quizId.toString(),
+      userId: userId.toString(),
     };
-    
-    if (isPreview !== undefined) {
-      query.isPreview = isPreview;
+
+    // If you're filtering out preview attempts (like faculty previews)
+    if (isPreview === false) {
+      query.isPreview = { $ne: true };
     }
-    
-    const attempts = await QuizAttemptModel.find(query).sort({ timestamp: -1 });
-    console.log(`Found ${attempts.length} attempts for query:`, query);
-    
-    return attempts;
+
+    return await QuizAttemptModel.find(query).sort({ timestamp: -1 }); // most recent first
   } catch (error) {
-    console.error(`Error finding attempts for quiz ${quizId} and user ${userId}:`, error);
-    return [];
+    console.error("Error fetching quiz attempts:", error);
+    throw error;
   }
 };
 
 export const updateQuizAttempt = async (attemptId, attemptUpdates) => {
   try {
     console.log(`Updating quiz attempt ${attemptId} with:`, attemptUpdates);
-    
+
     // Update in the standalone collection
     const result = await QuizAttemptModel.updateOne(
       { _id: attemptId },
       { $set: attemptUpdates }
     );
-    
+
     // Also update in the quiz's attempts array
     // This is more complex as we need to find which quiz contains this attempt
     const attempt = await QuizAttemptModel.findOne({ _id: attemptId });
     if (attempt) {
       await QuizModel.updateOne(
-        { 
+        {
           _id: attempt.quizId,
-          "attempts._id": attemptId 
+          "attempts._id": attemptId
         },
-        { 
-          $set: { "attempts.$": { ...attempt.toObject(), ...attemptUpdates } } 
+        {
+          $set: { "attempts.$": { ...attempt.toObject(), ...attemptUpdates } }
         }
       );
     }
-    
+
     return result;
   } catch (error) {
     console.error(`Error updating quiz attempt ${attemptId}:`, error);
@@ -171,13 +177,13 @@ export const updateQuizAttempt = async (attemptId, attemptUpdates) => {
 export const deleteQuizAttempt = async (attemptId) => {
   try {
     console.log(`Deleting quiz attempt: ${attemptId}`);
-    
+
     // Find the attempt first to get the quizId
     const attempt = await QuizAttemptModel.findOne({ _id: attemptId });
-    
+
     // Delete from standalone collection
     const result = await QuizAttemptModel.deleteOne({ _id: attemptId });
-    
+
     // Also remove from quiz's attempts array if found
     if (attempt) {
       await QuizModel.updateOne(
@@ -185,7 +191,7 @@ export const deleteQuizAttempt = async (attemptId) => {
         { $pull: { attempts: { _id: attemptId } } }
       );
     }
-    
+
     return result;
   } catch (error) {
     console.error(`Error deleting quiz attempt ${attemptId}:`, error);
